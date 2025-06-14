@@ -45,7 +45,7 @@ function Sidebar({ color, image, routes }) {
              <img
   src={require("assets/img/logo2.png")}
   alt="RidersApp"
-  style={{ width: "100%", height: "auto" }} // <-- personalizzabile!
+  style={{ width: "250px", height: "auto" }} // <-- personalizzabile!
 />
             </div>
           </a>
