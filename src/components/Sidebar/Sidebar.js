@@ -22,6 +22,12 @@ import { Nav } from "react-bootstrap";
 
 import logo from "assets/img/logo.png";
 
+
+
+
+
+
+
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
   const activeRoute = (routeName) => {
@@ -42,15 +48,15 @@ function Sidebar({ color, image, routes }) {
             className="simple-text logo-mini mx-1"
           >
             <div className="logo-img">
-             <img
-  src={require("assets/img/logo.png")}
-  alt="RidersApp"
-  style={{ width: "250px", height: "auto" }} // <-- personalizzabile!
-/>
+              <img
+                src={require("assets/img/logo.png")}
+                alt="RidersApp"
+                style={{ width: "250px", height: "auto" }}
+              />
             </div>
           </a>
-          
         </div>
+
         <Nav>
           {routes.map((prop, key) => {
             if (!prop.redirect)
@@ -77,8 +83,6 @@ function Sidebar({ color, image, routes }) {
           })}
         </Nav>
 
-        </Nav>
-
         {/* 🔴 Pulsante Logout */}
         <div className="mt-4 px-3">
           <button
@@ -95,7 +99,6 @@ function Sidebar({ color, image, routes }) {
             Esci
           </button>
         </div>
-
 
       </div>
     </div>
