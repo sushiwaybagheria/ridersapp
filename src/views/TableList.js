@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "firebase.js";
 
 // react-bootstrap components
 import {
@@ -14,6 +16,17 @@ import {
 } from "react-bootstrap";
 
 function TableList() {
+  const [riders, setRiders] = useState([]);
+
+  useEffect(() => {
+    const fetchRiders = async () => {
+      const querySnapshot = await getDocs(collection(db, "riders"));
+      const ridersData = querySnapshot.docs.map((doc, index) => ({ id: doc.id, index: index + 1, ...doc.data() }));
+      setRiders(ridersData);
+    };
+    fetchRiders();
+  }, []);
+
   return (
     <>
       <Container fluid>
@@ -21,132 +34,40 @@ function TableList() {
           <Col md="12">
             <Card className="strpied-tabled-with-hover">
               <Card.Header>
-                <Card.Title as="h4">Striped Table with Hover</Card.Title>
-                <p className="card-category">
-                  Here is a subtitle for this table
-                </p>
+                <Card.Title as="h4">Elenco Riders</Card.Title>
+                <p className="card-category">Tutti i rider registrati nel sistema</p>
               </Card.Header>
               <Card.Body className="table-full-width table-responsive px-0">
                 <Table className="table-hover table-striped">
                   <thead>
                     <tr>
-                      <th className="border-0">ID</th>
-                      <th className="border-0">Name</th>
-                      <th className="border-0">Salary</th>
-                      <th className="border-0">Country</th>
-                      <th className="border-0">City</th>
+                      <th className="border-0">#</th>
+                      <th className="border-0">Cognome</th>
+                      <th className="border-0">Nome</th>
+                      <th className="border-0">Età</th>
+                      <th className="border-0">Telefono</th>
+                      <th className="border-0">Mezzo</th>
+                      <th className="border-0">Disponibilità</th>
+                      <th className="border-0">Consegne</th>
+                      <th className="border-0">Note</th>
+                      <th className="border-0">Data Reg.</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Dakota Rice</td>
-                      <td>$36,738</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Minerva Hooper</td>
-                      <td>$23,789</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Sage Rodriguez</td>
-                      <td>$56,142</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Philip Chaney</td>
-                      <td>$38,735</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Doris Greene</td>
-                      <td>$63,542</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Mason Porter</td>
-                      <td>$78,615</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md="12">
-            <Card className="card-plain table-plain-bg">
-              <Card.Header>
-                <Card.Title as="h4">Table on Plain Background</Card.Title>
-                <p className="card-category">
-                  Here is a subtitle for this table
-                </p>
-              </Card.Header>
-              <Card.Body className="table-full-width table-responsive px-0">
-                <Table className="table-hover">
-                  <thead>
-                    <tr>
-                      <th className="border-0">ID</th>
-                      <th className="border-0">Name</th>
-                      <th className="border-0">Salary</th>
-                      <th className="border-0">Country</th>
-                      <th className="border-0">City</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Dakota Rice</td>
-                      <td>$36,738</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Minerva Hooper</td>
-                      <td>$23,789</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Sage Rodriguez</td>
-                      <td>$56,142</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Philip Chaney</td>
-                      <td>$38,735</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Doris Greene</td>
-                      <td>$63,542</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Mason Porter</td>
-                      <td>$78,615</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                    </tr>
+                    {riders.map((rider) => (
+                      <tr key={rider.id}>
+                        <td>{rider.index}</td>
+                        <td>{rider.COGNOME}</td>
+                        <td>{rider.NOME}</td>
+                        <td>{rider.ETA}</td>
+                        <td>{rider.TELEFONO}</td>
+                        <td>{rider.MEZZO}</td>
+                        <td>{rider.DISPONIBILITA}</td>
+                        <td>{rider.NUMERO_CONSEGNE}</td>
+                        <td>{rider.NOTE}</td>
+                        <td>{rider.DATA_REG}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </Card.Body>
