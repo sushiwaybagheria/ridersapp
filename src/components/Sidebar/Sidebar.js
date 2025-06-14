@@ -20,7 +20,7 @@ import { useLocation, NavLink } from "react-router-dom";
 
 import { Nav } from "react-bootstrap";
 
-import logo from "assets/img/logo.png";
+import logo from "assets/img/logo2.png";
 
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
@@ -42,7 +42,11 @@ function Sidebar({ color, image, routes }) {
             className="simple-text logo-mini mx-1"
           >
             <div className="logo-img">
-              <img src={require("assets/img/logo.png")} alt="RidersApp" />
+             <img
+  src={require("assets/img/logo2.png")}
+  alt="RidersApp"
+  style={{ width: "100%", height: "auto" }} // <-- personalizzabile!
+/>
             </div>
           </a>
           
