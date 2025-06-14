@@ -17,7 +17,7 @@
 */
 
 import Dashboard from "views/Dashboard.js";
-import UserProfile from "views/UserProfile.js";
+import Orders from "views/Orders.js";
 import TableList from "views/TableList.js";
 import Notifications from "views/Notifications.js";
 import Maps from "views/Maps.js";
@@ -30,7 +30,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-chart-pie-35",
     component: Dashboard,
     layout: "/admin",
-navbarType: "dashboard"
+    navbarType: "dashboard"
   },
   {
     path: "/table",
@@ -38,14 +38,15 @@ navbarType: "dashboard"
     icon: "nc-icon nc-notes",
     component: TableList,
     layout: "/admin",
-navbarType: "riders"
+    navbarType: "riders"
   },
   {
-    path: "/user",
-    name: "Profilo Utente",
-    icon: "nc-icon nc-circle-09",
-    component: UserProfile,
-    layout: "/admin"
+    path: "/orders",
+    name: "Ordini",
+    icon: "nc-icon nc-delivery-fast",
+    component: Orders,
+    layout: "/admin",
+    navbarType: "orders"
   },
   {
     path: "/notifications",
@@ -61,14 +62,14 @@ navbarType: "riders"
     component: Maps,
     layout: "/admin"
   },
-{
-  path: "/rider-form",
-  name: "Nuovo Rider",
-  icon: "nc-icon nc-simple-add",
-  component: RiderForm,
-  layout: "/admin",
-  invisible: true // così non compare nel menu
-}
+  {
+    path: "/rider-form",
+    name: "Nuovo Rider",
+    icon: "nc-icon nc-simple-add",
+    component: RiderForm,
+    layout: "/admin",
+    invisible: true
+  }
 ];
 
 export default dashboardRoutes;

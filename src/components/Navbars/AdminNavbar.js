@@ -30,6 +30,11 @@ const history = useHistory();
 history.push("/admin/rider-form");
 };
 
+const handleAddOrder = () => {
+  alert("Funzione 'Aggiungi Ordine' da implementare");
+  // In futuro potrai aprire un form o navigare a una pagina
+};
+
 
   return (
     <Navbar bg="light" expand="lg">
@@ -43,6 +48,13 @@ history.push("/admin/rider-form");
             + Aggiungi Rider
           </Button>
         )}
+
+{navbarType === "orders" && (
+  <Button variant="primary" size="sm" onClick={handleAddOrder}>
+    + Aggiungi Ordine
+  </Button>
+)}
+
 
         <Button variant="outline-danger" size="sm" onClick={handleLogout}>
           Logout
