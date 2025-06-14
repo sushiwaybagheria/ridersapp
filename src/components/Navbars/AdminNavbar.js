@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { Navbar, Container, Button } from "react-bootstrap";
 import routes from "routes.js";
 
@@ -15,7 +15,7 @@ function Header() {
 
   const route = getCurrentRoute();
   const navbarType = route?.navbarType || "default";
-const navigate = useNavigate();
+const history = useHistory();
 
   const handleLogout = () => {
     import("firebase/auth").then(({ getAuth, signOut }) => {
@@ -27,7 +27,7 @@ const navigate = useNavigate();
   };
 
   const handleAddRider = () => {
-  navigate("/admin/rider-form");
+history.push("/admin/rider-form");
 };
 
 
