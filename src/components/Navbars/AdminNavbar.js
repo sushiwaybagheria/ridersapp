@@ -12,6 +12,9 @@ function Header() {
     );
   };
 
+  const route = getCurrentRoute();
+  const navbarType = route?.navbarType || "default";
+
   const handleLogout = () => {
     import("firebase/auth").then(({ getAuth, signOut }) => {
       const auth = getAuth();
@@ -21,27 +24,25 @@ function Header() {
     });
   };
 
-  const route = getCurrentRoute();
-  const navbarType = route?.navbarType || "default";
+  const handleAddRider = () => {
+    alert("Funzione 'Aggiungi Rider' da implementare");
+    // In futuro potrai aprire un form modale o navigare a una pagina
+  };
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container fluid className="justify-content-between align-items-center">
-        <Navbar.Brand href="#home" onClick={(e) => e.preventDefault()}>
+      <Container fluid className="d-flex justify-content-between align-items-center">
+        <Navbar.Brand href="#" onClick={(e) => e.preventDefault()}>
           {route?.name || "RidersApp"}
         </Navbar.Brand>
 
-        {navbarType === "dashboard" && (
-          <span className="text-muted">Benvenuto nella dashboard</span>
-        )}
-
         {navbarType === "riders" && (
-          <Button variant="success" size="sm">
-            Aggiungi Rider
+          <Button variant="success" size="sm" onClick={handleAddRider}>
+            + Aggiungi Rider
           </Button>
         )}
 
-        <Button variant="outline-danger" onClick={handleLogout}>
+        <Button variant="outline-danger" size="sm" onClick={handleLogout}>
           Logout
         </Button>
       </Container>
