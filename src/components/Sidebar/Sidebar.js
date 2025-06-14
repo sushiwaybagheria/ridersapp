@@ -76,6 +76,27 @@ function Sidebar({ color, image, routes }) {
             return null;
           })}
         </Nav>
+
+        </Nav>
+
+        {/* 🔴 Pulsante Logout */}
+        <div className="mt-4 px-3">
+          <button
+            className="btn btn-danger btn-block"
+            onClick={() => {
+              import("firebase/auth").then(({ getAuth, signOut }) => {
+                const auth = getAuth();
+                signOut(auth).then(() => {
+                  window.location.href = "/login";
+                });
+              });
+            }}
+          >
+            Esci
+          </button>
+        </div>
+
+
       </div>
     </div>
   );
