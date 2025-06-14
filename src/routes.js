@@ -21,6 +21,7 @@ import UserProfile from "views/UserProfile.js";
 import TableList from "views/TableList.js";
 import Notifications from "views/Notifications.js";
 import Maps from "views/Maps.js";
+import RiderForm from "views/RiderForm.js";
 
 const dashboardRoutes = [
   {
@@ -28,14 +29,16 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "nc-icon nc-chart-pie-35",
     component: Dashboard,
-    layout: "/admin"
+    layout: "/admin",
+navbarType: "dashboard"
   },
   {
     path: "/table",
     name: "Gestione Riders",
     icon: "nc-icon nc-notes",
     component: TableList,
-    layout: "/admin"
+    layout: "/admin",
+navbarType: "riders"
   },
   {
     path: "/user",
@@ -57,7 +60,15 @@ const dashboardRoutes = [
     icon: "nc-icon nc-pin-3",
     component: Maps,
     layout: "/admin"
-  }
+  },
+{
+  path: "/rider-form",
+  name: "Nuovo Rider",
+  icon: "nc-icon nc-simple-add",
+  component: RiderForm,
+  layout: "/admin",
+  invisible: true // così non compare nel menu
+}
 ];
 
 export default dashboardRoutes;

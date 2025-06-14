@@ -1,7 +1,8 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Container, Button } from "react-bootstrap";
 import routes from "routes.js";
+
 
 function Header() {
   const location = useLocation();
@@ -14,6 +15,7 @@ function Header() {
 
   const route = getCurrentRoute();
   const navbarType = route?.navbarType || "default";
+const navigate = useNavigate();
 
   const handleLogout = () => {
     import("firebase/auth").then(({ getAuth, signOut }) => {
@@ -25,9 +27,9 @@ function Header() {
   };
 
   const handleAddRider = () => {
-    alert("Funzione 'Aggiungi Rider' da implementare");
-    // In futuro potrai aprire un form modale o navigare a una pagina
-  };
+  navigate("/admin/rider-form");
+};
+
 
   return (
     <Navbar bg="light" expand="lg">
