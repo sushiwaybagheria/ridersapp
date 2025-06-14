@@ -62,7 +62,8 @@ function TableList() {
                       <td>{r.disponibilita}</td>
                       <td>{r.numero_consegne}</td>
                       <td>{r.note}</td>
-                      <td>{r.data_reg}</td>
+                     <td>{r.data_reg?.seconds ? new Date(r.data_reg.seconds * 1000).toLocaleString() : ""}</td>
+
                     </tr>
                   ))}
                 </tbody>
