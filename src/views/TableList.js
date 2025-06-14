@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import db from "../firebase";
+import { db } from "../firebase";
 
 // react-bootstrap components
 import {
@@ -19,6 +19,7 @@ function TableList() {
     const fetchRiders = async () => {
       const querySnapshot = await getDocs(collection(db, "riders"));
       const data = querySnapshot.docs.map((doc) => doc.data());
+console.log("🟡 Riders caricati:", data);
       setRiders(data);
     };
 
@@ -62,7 +63,7 @@ function TableList() {
                       <td>{r.disponibilita}</td>
                       <td>{r.numero_consegne}</td>
                       <td>{r.note}</td>
-                     <td>{r.data_reg?.seconds ? new Date(r.data_reg.seconds * 1000).toLocaleString() : ""}</td>
+                     <td>{r.data_reg?.toDate().toLocaleString()}</td>
 
                     </tr>
                   ))}
