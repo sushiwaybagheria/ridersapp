@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
-import db from "../firebase";
+import { db } from "../firebase";
+
 import {
   Button,
   Card,
