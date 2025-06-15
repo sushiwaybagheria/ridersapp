@@ -61,12 +61,13 @@ console.log("🟡 Riders caricati:", data);
                       <td>{r.telefono}</td>
 
 <td>
-  {rider.mezzo === "BICI" && "🚲 BICI"}
-  {rider.mezzo === "MOTO" && "🏍️ MOTO"}
-  {rider.mezzo === "AUTO" && "🚗 AUTO"}
-  {rider.mezzo === "MINICAR" && "🚙 MINICAR"}
-  {rider.mezzo === "ALTRO" && "❓ ALTRO"}
+  {r.mezzo === "BICI" && "🚲 BICI"}
+  {r.mezzo === "MOTO" && "🏍️ MOTO"}
+  {r.mezzo === "AUTO" && "🚗 AUTO"}
+  {r.mezzo === "MINICAR" && "🚙 MINICAR"}
+  {r.mezzo === "ALTRO" && "❓ ALTRO"}
 </td>
+
 
                       <td>{r.disponibilita}</td>
                       <td>{r.numero_consegne}</td>
