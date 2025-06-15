@@ -80,7 +80,7 @@ console.log("📦 Rider attuale nello stato:", rider);
         });
         alert("Rider aggiunto con successo!");
       }
-      history.push("/admin/riders");
+      history.push("/admin/table");
     } catch (error) {
       console.error("Errore durante il salvataggio del rider:", error);
       alert("Errore durante il salvataggio del rider");
@@ -88,7 +88,7 @@ console.log("📦 Rider attuale nello stato:", rider);
   };
 
   const handleCancel = () => {
-    history.push("/admin/riders");
+    history.push("/admin/table");
   };
 
 
