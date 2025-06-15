@@ -42,7 +42,8 @@ function Sidebar({ color, image, routes }) {
         }}
       />
       <div className="sidebar-wrapper">
-        <div className="logo d-flex align-items-center justify-content-start">
+        <div className="logo d-flex align-items-center justify-content-start" style={{ height: "120px", padding: "10px" }}>
+
           <a
             href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-mini mx-1"
@@ -51,7 +52,7 @@ function Sidebar({ color, image, routes }) {
               <img
                 src={require("assets/img/logo.png")}
                 alt="RidersApp"
-                style={{ width: "250px", height: "auto" }}
+                style={{ width: "250px", height: "120px" }}
               />
             </div>
           </a>
