@@ -1,7 +1,9 @@
+// src/views/Orders.js
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
 
+// react-bootstrap components
 import {
   Button,
   Card,
@@ -12,16 +14,19 @@ import {
 } from "react-bootstrap";
 
 function Orders() {
-  const [orders, setOrders] = useState([]);
+  const [ordini, setOrdini] = useState([]);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchOrdini = async () => {
       const querySnapshot = await getDocs(collection(db, "ordini_riders"));
-      const data = querySnapshot.docs.map((doc) => doc.data());
-      setOrders(data);
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setOrdini(data);
     };
 
-    fetchOrders();
+    fetchOrdini();
   }, []);
 
   return (
@@ -38,26 +43,30 @@ function Orders() {
                 <thead>
                   <tr>
                     <th className="border-0">#</th>
+                    <th className="border-0">ID</th>
                     <th className="border-0">Cliente</th>
+                    <th className="border-0">Telefono</th>
                     <th className="border-0">Indirizzo</th>
-                    <th className="border-0">Data</th>
                     <th className="border-0">Orario</th>
-                    <th className="border-0">Note</th>
                     <th className="border-0">Stato</th>
                     <th className="border-0">Assegnato A</th>
+                    <th className="border-0">Note</th>
+                    <th className="border-0">Data</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((o, idx) => (
-                    <tr key={idx}>
+                  {ordini.map((ordine, idx) => (
+                    <tr key={ordine.id}>
                       <td>{idx + 1}</td>
-                      <td>{o.cliente}</td>
-                      <td>{o.indirizzo}</td>
-                      <td>{o.dataConsegna}</td>
-                      <td>{o.orarioConsegna}</td>
-                      <td>{o.note}</td>
-                      <td>{o.stato}</td>
-                      <td>{o.assegnatoA || "-"}</td>
+                      <td>{ordine.ID}</td>
+                      <td>{ordine.cliente}</td>
+                      <td>{ordine.telefono}</td>
+                      <td>{ordine.indirizzo}</td>
+                      <td>{ordine.orarioConsegna}</td>
+                      <td>{ordine.stato}</td>
+                      <td>{ordine.assegnatoA || "-"}</td>
+                      <td>{ordine.note}</td>
+                      <td>{ordine.dataConsegna}</td>
                     </tr>
                   ))}
                 </tbody>
