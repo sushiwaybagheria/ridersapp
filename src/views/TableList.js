@@ -59,7 +59,15 @@ console.log("🟡 Riders caricati:", data);
                       <td>{r.nome}</td>
                       <td>{r.eta}</td>
                       <td>{r.telefono}</td>
-                      <td>{r.mezzo}</td>
+
+<td>
+  {rider.mezzo === "BICI" && "🚲 BICI"}
+  {rider.mezzo === "MOTO" && "🏍️ MOTO"}
+  {rider.mezzo === "AUTO" && "🚗 AUTO"}
+  {rider.mezzo === "MINICAR" && "🚙 MINICAR"}
+  {rider.mezzo === "ALTRO" && "❓ ALTRO"}
+</td>
+
                       <td>{r.disponibilita}</td>
                       <td>{r.numero_consegne}</td>
                       <td>{r.note}</td>

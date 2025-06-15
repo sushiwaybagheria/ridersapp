@@ -143,6 +143,8 @@ function RiderForm() {
                   </Col>
                 </Row>
 
+
+{/* 
                 <Row>
                   <Col md="6">
                     <Form.Group>
@@ -167,6 +169,10 @@ function RiderForm() {
                     </Form.Group>
                   </Col>
                 </Row>
+
+*/}
+
+
 
                 <Row>
                   <Col md="12">
