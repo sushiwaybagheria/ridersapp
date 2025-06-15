@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
+import MezzoIcon from "components/MezzoIcon";
+
 
 // react-bootstrap components
 import {
@@ -86,13 +88,8 @@ const data = querySnapshot.docs.map((doc) => ({
                       <td>{r.nome}</td>
                       <td>{r.eta}</td>
                       <td>{r.telefono}</td>
-                      <td>
-                        {r.mezzo === "BICI" && "🚲 BICI"}
-                        {r.mezzo === "MOTO" && "🏍️ MOTO"}
-                        {r.mezzo === "AUTO" && "🚗 AUTO"}
-                        {r.mezzo === "MINICAR" && "🚙 MINICAR"}
-                        {r.mezzo === "ALTRO" && "❓ ALTRO"}
-                      </td>
+                    <td><MezzoIcon tipo={r.mezzo} /></td>
+
                       <td>{r.disponibilita}</td>
                       <td>{r.numero_consegne}</td>
                       <td>{r.note}</td>
