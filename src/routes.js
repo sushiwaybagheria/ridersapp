@@ -22,6 +22,7 @@ import TableList from "views/TableList.js";
 import Notifications from "views/Notifications.js";
 import Maps from "views/Maps.js";
 import RiderForm from "views/RiderForm.js";
+import OrderForm from "views/OrderForm.js";
 
 const dashboardRoutes = [
   {
