@@ -60,7 +60,7 @@ console.log("🟡 Riders caricati:", data);
                       <td>{r.eta}</td>
                       <td>{r.telefono}</td>
 
-<td>
+                  <td>
   {r.mezzo === "BICI" && "🚲 BICI"}
   {r.mezzo === "MOTO" && "🏍️ MOTO"}
   {r.mezzo === "AUTO" && "🚗 AUTO"}
