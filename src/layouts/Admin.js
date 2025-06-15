@@ -81,22 +81,18 @@ function Admin() {
 
 
 
-           <Switch>
+<Switch>
+  {/* Route dinamica prima */}
+  <Route
+    path="/admin/rider-form/:id"
+    exact
+    render={(props) => <RiderForm {...props} />}
+  />
 
+  {/* Altre rotte generate dal file routes.js */}
   {getRoutes(routes)}
-  <Route 
-path="/admin/rider-form/:id" exact render={(props) => 
-
-
-
-
-
-<RiderForm {...props} />} />
-
-
-
-
 </Switch>
+
 
           </div>
           <Footer />
