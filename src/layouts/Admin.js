@@ -15,6 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import RiderForm from "views/RiderForm.js";
+
 import React, { Component } from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
 
@@ -68,7 +70,16 @@ function Admin() {
         <div className="main-panel" ref={mainPanel}>
           <AdminNavbar />
           <div className="content">
-            <Switch>{getRoutes(routes)}</Switch>
+
+
+
+
+
+           <Switch>
+  {getRoutes(routes)}
+  <Route path="/admin/rider-form/:id" exact render={(props) => <RiderForm {...props} />} />
+</Switch>
+
           </div>
           <Footer />
         </div>
