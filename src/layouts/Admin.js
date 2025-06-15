@@ -39,11 +39,17 @@ function Admin() {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
-          <Route
-            path={prop.layout + prop.path}
-            render={(props) => <prop.component {...props} />}
-            key={key}
-          />
+          
+
+
+<Route
+  path={prop.layout + prop.path}
+  component={prop.component}
+  key={key}
+/>
+
+
+
         );
       } else {
         return null;
@@ -76,8 +82,20 @@ function Admin() {
 
 
            <Switch>
+
   {getRoutes(routes)}
-  <Route path="/admin/rider-form/:id" exact render={(props) => <RiderForm {...props} />} />
+  <Route 
+path="/admin/rider-form/:id" exact render={(props) => 
+
+
+
+
+
+<RiderForm {...props} />} />
+
+
+
+
 </Switch>
 
           </div>
