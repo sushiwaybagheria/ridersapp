@@ -46,9 +46,11 @@ const data = querySnapshot.docs.map((doc) => ({
     }
   };
 
-  const handleEdit = (id) => {
-    history.push(`/admin/rider-form/${id}`);
-  };
+ const handleEdit = (riderId) => {
+  console.log("🟠 Rider ID su pulsante modifica:", riderId); // 👍 tutto chiaro ora!
+  history.push(`/admin/rider-form/${riderId}`);
+};
+
 
   return (
     <Container fluid>
@@ -98,6 +100,8 @@ const data = querySnapshot.docs.map((doc) => ({
                       <td>
                         <Button variant="warning" size="sm" onClick={() => handleEdit(r.id)} className="me-1">
                           ✏️
+
+
                         </Button>
                         <Button variant="danger" size="sm" onClick={() => handleDelete(r.id)}>
                           🗑️

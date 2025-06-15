@@ -31,28 +31,33 @@ const [loading, setLoading] = useState(true);
 
 
 useEffect(() => {
-  const fetchRider = async () => {
-    if (id) {
-      const docRef = doc(db, "riders", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setRider({
-          nome: data.nome || "",
-          cognome: data.cognome || "",
-          eta: data.eta?.toString() || "",
-          telefono: data.telefono || "",
-          mezzo: data.mezzo || "",
-          disponibilita: data.disponibilita ?? true,
-          numero_consegne: data.numero_consegne ?? 0,
-          note: data.note || ""
-        });
+  console.log("🧪 ID del rider ricevuto da URL:", id);
+  if (id) {
+    const fetchRider = async () => {
+      try {
+        const docRef = doc(db, "riders", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          console.log("✅ Documento trovato:", docSnap.data());
+          setRider(docSnap.data());
+console.log("📦 Rider attuale nello stato:", rider);
+
+
+        } else {
+          console.warn("❌ Nessun documento trovato per ID:", id);
+        }
+        setLoading(false); // ✅ AGGIUNGI QUI!
+      } catch (error) {
+        console.error("⚠️ Errore durante il fetch del rider:", error);
+        setLoading(false); // ✅ ANCHE QUI!
       }
-    }
-    setLoading(false);
-  };
-  fetchRider();
+    };
+    fetchRider();
+  } else {
+    setLoading(false); // ✅ Se stai creando un nuovo rider, smetti comunque di caricare
+  }
 }, [id]);
+
 
 
 
