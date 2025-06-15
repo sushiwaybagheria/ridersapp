@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // react-bootstrap components
 import {
@@ -12,10 +12,10 @@ import {
 } from "react-bootstrap";
 
 function Orders() {
-  const navigate = useNavigate();
+const history = useHistory();
 
   const handleAddOrder = () => {
-    navigate("/admin/order-form");
+   history.push("/admin/order-form");
   };
 
   return (
