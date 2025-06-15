@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import db from "../firebase";
 
 // react-bootstrap components
@@ -16,10 +16,9 @@ function OrderForm() {
   const [order, setOrder] = useState({
     cliente: "",
     indirizzo: "",
-    telefono: "",
-    rider: "",
-    orario: "",
-    note: "",
+    dataConsegna: "",
+    orarioConsegna: "",
+    note: ""
   });
 
   const handleChange = (e) => {
@@ -32,10 +31,17 @@ function OrderForm() {
     try {
       await addDoc(collection(db, "ordini_riders"), {
         ...order,
-        timestamp: Timestamp.now(),
+        stato: "disponibile",
+        assegnatoA: null
       });
       alert("Ordine aggiunto con successo!");
-      setOrder({ cliente: "", indirizzo: "", telefono: "", rider: "", orario: "", note: "" });
+      setOrder({
+        cliente: "",
+        indirizzo: "",
+        dataConsegna: "",
+        orarioConsegna: "",
+        note: ""
+      });
     } catch (error) {
       console.error("Errore durante l'aggiunta dell'ordine:", error);
       alert("Errore durante l'aggiunta dell'ordine");
@@ -63,23 +69,9 @@ function OrderForm() {
                         value={order.cliente}
                         onChange={handleChange}
                         required
-                      ></Form.Control>
+                      />
                     </Form.Group>
                   </Col>
-                  <Col md="6">
-                    <Form.Group>
-                      <label>Telefono</label>
-                      <Form.Control
-                        placeholder="Telefono"
-                        type="text"
-                        name="telefono"
-                        value={order.telefono}
-                        onChange={handleChange}
-                      ></Form.Control>
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
                   <Col md="6">
                     <Form.Group>
                       <label>Indirizzo</label>
@@ -89,36 +81,40 @@ function OrderForm() {
                         name="indirizzo"
                         value={order.indirizzo}
                         onChange={handleChange}
-                      ></Form.Control>
-                    </Form.Group>
-                  </Col>
-                  <Col md="6">
-                    <Form.Group>
-                      <label>Rider</label>
-                      <Form.Control
-                        placeholder="Nome rider"
-                        type="text"
-                        name="rider"
-                        value={order.rider}
-                        onChange={handleChange}
-                      ></Form.Control>
+                        required
+                      />
                     </Form.Group>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="6">
                     <Form.Group>
-                      <label>Orario Consegna</label>
+                      <label>Data Consegna</label>
                       <Form.Control
-                        placeholder="Orario"
-                        type="text"
-                        name="orario"
-                        value={order.orario}
+                        type="date"
+                        name="dataConsegna"
+                        value={order.dataConsegna}
                         onChange={handleChange}
-                      ></Form.Control>
+                        required
+                      />
                     </Form.Group>
                   </Col>
                   <Col md="6">
+                    <Form.Group>
+                      <label>Orario Consegna</label>
+                      <Form.Control
+                        placeholder="Es. 21:00"
+                        type="time"
+                        name="orarioConsegna"
+                        value={order.orarioConsegna}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
                     <Form.Group>
                       <label>Note</label>
                       <Form.Control
@@ -127,7 +123,7 @@ function OrderForm() {
                         name="note"
                         value={order.note}
                         onChange={handleChange}
-                      ></Form.Control>
+                      />
                     </Form.Group>
                   </Col>
                 </Row>
