@@ -117,12 +117,13 @@ function RiderForm() {
 
 
 
+
 <Form.Group>
   <label>Mezzo</label>
   <Form.Control
     as="select"
     name="mezzo"
-    value={rider.mezzo}
+    value={formData.mezzo}
     onChange={handleChange}
     required
   >
@@ -143,8 +144,6 @@ function RiderForm() {
                   </Col>
                 </Row>
 
-
-{/* 
                 <Row>
                   <Col md="6">
                     <Form.Group>
@@ -169,10 +168,6 @@ function RiderForm() {
                     </Form.Group>
                   </Col>
                 </Row>
-
-*/}
-
-
 
                 <Row>
                   <Col md="12">
