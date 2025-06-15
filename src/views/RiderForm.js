@@ -27,18 +27,24 @@ function RiderForm() {
   const history = useHistory();
   const { id } = useParams();
 
+
+
   useEffect(() => {
-    if (id) {
-      const fetchRider = async () => {
-        const docRef = doc(db, "riders", id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setRider(docSnap.data());
-        }
-      };
-      fetchRider();
-    }
-  }, [id]);
+  if (id) {
+    const fetchRider = async () => {
+      const docRef = doc(db, "riders", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setRider({
+          id: docSnap.id,
+          ...docSnap.data()
+        });
+      }
+    };
+    fetchRider();
+  }
+}, [id]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
