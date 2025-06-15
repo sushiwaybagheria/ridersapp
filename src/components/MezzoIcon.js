@@ -1,6 +1,5 @@
 // MezzoIcon.js
 import React from "react";
-import { GiScooter } from "react-icons/gi";
 import {
   FaCarSide,
   FaTruckPickup,
@@ -9,7 +8,8 @@ import {
 } from "react-icons/fa";
 
 const MezzoIcon = ({ tipo }) => {
-  const iconStyle = { fontSize: "1.8rem" }; // 👈 puoi anche provare 2rem o 2.2rem
+  const iconStyle = { fontSize: "1.8rem" };
+  const imgStyle = { width: "32px", height: "32px" }; // Puoi regolare la dimensione qui
 
   switch (tipo) {
     case "AUTO":
@@ -17,7 +17,14 @@ const MezzoIcon = ({ tipo }) => {
     case "MINICAR":
       return <FaTruckPickup title="Minicar" style={iconStyle} />;
     case "MOTO":
-      return <GiScooter title="Scooter" style={iconStyle} />;
+      return (
+        <img
+          src="/icons/scooter.svg"
+          alt="Scooter"
+          title="Scooter"
+          style={imgStyle}
+        />
+      );
     case "BICI":
       return <FaBicycle title="Bici" style={iconStyle} />;
     case "ALTRO":
