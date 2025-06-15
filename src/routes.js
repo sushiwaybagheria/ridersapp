@@ -69,7 +69,17 @@ const dashboardRoutes = [
     component: RiderForm,
     layout: "/admin",
     invisible: true
-  }
+  },
+{
+  path: "/order-form",
+  name: "Nuovo Ordine",
+  icon: "nc-icon nc-simple-add",
+  component: OrderForm,
+  layout: "/admin",
+  invisible: true, // Non compare nel menu
+  navbarType: "order-form"
+}
+
 ];
 
 export default dashboardRoutes;

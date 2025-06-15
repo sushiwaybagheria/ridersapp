@@ -1,66 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import db from "../firebase";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // react-bootstrap components
 import {
+  Button,
   Card,
-  Table,
   Container,
   Row,
   Col,
+  Table,
 } from "react-bootstrap";
 
 function Orders() {
-  const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const querySnapshot = await getDocs(collection(db, "ordini_riders"));
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setOrders(data);
-    };
-
-    fetchOrders();
-  }, []);
+  const handleAddOrder = () => {
+    navigate("/admin/order-form");
+  };
 
   return (
     <Container fluid>
       <Row>
         <Col md="12">
-          <Card className="strpied-tabled-with-hover">
-            <Card.Header>
-              <Card.Title as="h4">Elenco Ordini</Card.Title>
-              <p className="card-category">Tutti gli ordini registrati</p>
+          <Card>
+            <Card.Header className="d-flex justify-content-between align-items-center">
+              <div>
+                <Card.Title as="h4">Ordini Riders</Card.Title>
+                <p className="card-category">Visualizza tutti gli ordini registrati</p>
+              </div>
+              <Button variant="success" size="sm" onClick={handleAddOrder}>
+                + Aggiungi Ordine
+              </Button>
             </Card.Header>
             <Card.Body className="table-full-width table-responsive px-0">
               <Table className="table-hover table-striped">
                 <thead>
                   <tr>
-                    <th className="border-0">#</th>
-                    <th className="border-0">Cliente</th>
-                    <th className="border-0">Indirizzo</th>
-                    <th className="border-0">Rider</th>
-                    <th className="border-0">Telefono</th>
-                    <th className="border-0">Orario</th>
-                    <th className="border-0">Note</th>
+                    <th>#</th>
+                    <th>Data</th>
+                    <th>Rider</th>
+                    <th>Zona</th>
+                    <th>Note</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((o, idx) => (
-                    <tr key={o.id}>
-                      <td>{idx + 1}</td>
-                      <td>{o.cliente || "-"}</td>
-                      <td>{o.indirizzo || "-"}</td>
-                      <td>{o.rider || "-"}</td>
-                      <td>{o.telefono || "-"}</td>
-                      <td>{o.orario || "-"}</td>
-                      <td>{o.note || "-"}</td>
-                    </tr>
-                  ))}
+                  {/* Qui andranno gli ordini */}
                 </tbody>
               </Table>
             </Card.Body>
