@@ -1,71 +1,65 @@
-// RiderForm.jsx
-import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Button,
+  Card,
+  Form,
+  Container,
+  Row,
+  Col
+} from "react-bootstrap";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
-import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 
 function RiderForm() {
-  const { id } = useParams();
-  const history = useHistory();
-  const isEdit = Boolean(id);
-
-  const [rider, setRider] = useState({
+  const [formData, setFormData] = useState({
     nome: "",
     cognome: "",
     eta: "",
     telefono: "",
     mezzo: "",
+    disponibilita: "",
+    numero_consegne: "",
     note: ""
   });
 
-  useEffect(() => {
-    if (isEdit) {
-      const fetchRider = async () => {
-        try {
-          const docRef = doc(db, "riders", id);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setRider(docSnap.data());
-          } else {
-            alert("Rider non trovato");
-            history.push("/admin/riders");
-          }
-        } catch (error) {
-          console.error("Errore durante il recupero del rider:", error);
-        }
-      };
-      fetchRider();
-    }
-  }, [id, isEdit, history]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setRider((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const docRef = doc(db, "riders", isEdit ? id : `${Date.now()}`);
-      await setDoc(docRef, {
-        ...rider,
-        data_reg: isEdit ? rider.data_reg : Timestamp.now(),
+      await addDoc(collection(db, "riders"), {
+        ...formData,
+        numero_consegne: Number(formData.numero_consegne),
+        eta: Number(formData.eta),
+        data_reg: serverTimestamp()
       });
-      alert("Rider salvato correttamente");
-      history.push("/admin/riders");
+      alert("Rider aggiunto con successo!");
+      setFormData({
+        nome: "",
+        cognome: "",
+        eta: "",
+        telefono: "",
+        mezzo: "",
+        disponibilita: "",
+        numero_consegne: "",
+        note: ""
+      });
     } catch (error) {
-      console.error("Errore durante il salvataggio del rider:", error);
+      console.error("Errore durante il salvataggio:", error);
+      alert("Errore durante il salvataggio.");
     }
   };
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Col md="8">
           <Card>
             <Card.Header>
-              <Card.Title as="h4">{isEdit ? "Modifica Rider" : "Aggiungi Rider"}</Card.Title>
+              <Card.Title as="h4">Nuovo Rider</Card.Title>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -76,7 +70,7 @@ function RiderForm() {
                       <Form.Control
                         type="text"
                         name="nome"
-                        value={rider.nome}
+                        value={formData.nome}
                         onChange={handleChange}
                         required
                       />
@@ -88,13 +82,14 @@ function RiderForm() {
                       <Form.Control
                         type="text"
                         name="cognome"
-                        value={rider.cognome}
+                        value={formData.cognome}
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                   </Col>
                 </Row>
+
                 <Row>
                   <Col md="4">
                     <Form.Group>
@@ -102,7 +97,7 @@ function RiderForm() {
                       <Form.Control
                         type="number"
                         name="eta"
-                        value={rider.eta}
+                        value={formData.eta}
                         onChange={handleChange}
                       />
                     </Form.Group>
@@ -113,46 +108,84 @@ function RiderForm() {
                       <Form.Control
                         type="text"
                         name="telefono"
-                        value={rider.telefono}
+                        value={formData.telefono}
                         onChange={handleChange}
                       />
                     </Form.Group>
                   </Col>
                   <Col md="4">
-                    <Form.Group>
-                      <label>Mezzo</label>
-                      <Form.Control
-                        as="select"
-                        name="mezzo"
-                        value={rider.mezzo}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">Seleziona un mezzo</option>
-                        <option value="AUTO">AUTO</option>
-                        <option value="MOTO">MOTO</option>
-                        <option value="BICI">BICI</option>
-                        <option value="MINICAR">MINICAR</option>
-                        <option value="ALTRO">ALTRO</option>
-                      </Form.Control>
-                    </Form.Group>
+
+
+
+
+<Form.Group>
+  <label>Mezzo</label>
+  <Form.Control
+    as="select"
+    name="mezzo"
+    value={formData.mezzo}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Seleziona un mezzo</option>
+    <option value="AUTO">AUTO</option>
+    <option value="MOTO">MOTO</option>
+    <option value="BICI">BICI</option>
+    <option value="MINICAR">MINICAR</option>
+    <option value="ALTRO">ALTRO</option>
+  </Form.Control>
+</Form.Group>
+
+
+
+
+
+
                   </Col>
                 </Row>
+
                 <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <Form.Group>
-                      <label>Note</label>
+                      <label>Disponibilità</label>
                       <Form.Control
                         type="text"
-                        name="note"
-                        value={rider.note}
+                        name="disponibilita"
+                        value={formData.disponibilita}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md="6">
+                    <Form.Group>
+                      <label>Numero consegne</label>
+                      <Form.Control
+                        type="number"
+                        name="numero_consegne"
+                        value={formData.numero_consegne}
                         onChange={handleChange}
                       />
                     </Form.Group>
                   </Col>
                 </Row>
+
+                <Row>
+                  <Col md="12">
+                    <Form.Group>
+                      <label>Note</label>
+                      <Form.Control
+                        as="textarea"
+                        rows="3"
+                        name="note"
+                        value={formData.note}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
                 <Button className="btn-fill pull-right" type="submit" variant="info">
-                  Salva
+                  Salva Rider
                 </Button>
                 <div className="clearfix"></div>
               </Form>

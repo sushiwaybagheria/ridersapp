@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { useHistory } from "react-router-dom";
+import { doc, deleteDoc } from "firebase/firestore";
 
 // react-bootstrap components
 import {
@@ -15,29 +15,50 @@ import {
 
 function TableList() {
   const [riders, setRiders] = useState([]);
-  const history = useHistory();
-
-  const fetchRiders = async () => {
-    const querySnapshot = await getDocs(collection(db, "riders"));
-    const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    console.log("🟡 Riders caricati:", data);
-    setRiders(data);
-  };
 
   useEffect(() => {
+    const fetchRiders = async () => {
+      const querySnapshot = await getDocs(collection(db, "riders"));
+    const data = querySnapshot.docs.map((doc) => ({
+  id: doc.id,
+  ...doc.data(),
+}));
+
+console.log("🟡 Riders caricati:", data);
+      setRiders(data);
+    };
+
     fetchRiders();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Sei sicuro di voler eliminare questo rider?")) {
-      await deleteDoc(doc(db, "riders", id));
-      fetchRiders();
-    }
-  };
 
-  const handleEdit = (id) => {
-    history.push(`/admin/rider-form/${id}`);
-  };
+
+
+const handleDelete = async (id) => {
+  if (window.confirm("Vuoi eliminare questo rider?")) {
+    try {
+      await deleteDoc(doc(db, "riders", id));
+      setRiders((prev) => prev.filter((r) => r.id !== id));
+      alert("Rider eliminato con successo!");
+    } catch (error) {
+      console.error("Errore eliminazione:", error);
+      alert("Errore durante l'eliminazione");
+    }
+  }
+};
+
+const handleEditRider = (rider) => {
+  // Navigazione al form passando il rider (da implementare in RiderForm)
+  window.location.href = `/admin/rider-form?id=${rider.id}`;
+};
+
+
+
+
+
+
+
+
 
   return (
     <Container fluid>
@@ -62,36 +83,51 @@ function TableList() {
                     <th className="border-0">Consegne</th>
                     <th className="border-0">Note</th>
                     <th className="border-0">Data Reg.</th>
-                    <th className="border-0">Azioni</th>
                   </tr>
                 </thead>
                 <tbody>
                   {riders.map((r, idx) => (
-                    <tr key={r.id}>
+                    <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{r.cognome}</td>
                       <td>{r.nome}</td>
                       <td>{r.eta}</td>
                       <td>{r.telefono}</td>
-                      <td>
-                        {r.mezzo === "BICI" && "🚲 BICI"}
-                        {r.mezzo === "MOTO" && "🏍️ MOTO"}
-                        {r.mezzo === "AUTO" && "🚗 AUTO"}
-                        {r.mezzo === "MINICAR" && "🚙 MINICAR"}
-                        {r.mezzo === "ALTRO" && "❓ ALTRO"}
-                      </td>
+
+                  <td>
+  {r.mezzo === "BICI" && "🚲 BICI"}
+  {r.mezzo === "MOTO" && "🏍️ MOTO"}
+  {r.mezzo === "AUTO" && "🚗 AUTO"}
+  {r.mezzo === "MINICAR" && "🚙 MINICAR"}
+  {r.mezzo === "ALTRO" && "❓ ALTRO"}
+</td>
+
+
                       <td>{r.disponibilita}</td>
                       <td>{r.numero_consegne}</td>
                       <td>{r.note}</td>
-                      <td>{r.data_reg?.toDate().toLocaleString()}</td>
-                      <td>
-                        <Button variant="warning" size="sm" onClick={() => handleEdit(r.id)} className="me-1">
-                          ✏️
-                        </Button>
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(r.id)}>
-                          🗑️
-                        </Button>
-                      </td>
+                     <td>{r.data_reg?.toDate().toLocaleString()}</td>
+
+
+<td>
+  <Button
+    variant="warning"
+    size="sm"
+    className="me-2"
+    onClick={() => handleEditRider(r)}
+  >
+    Modifica
+  </Button>
+  <Button
+    variant="danger"
+    size="sm"
+    onClick={() => handleDelete(r.id)}
+  >
+    Elimina
+  </Button>
+</td>
+
+
                     </tr>
                   ))}
                 </tbody>
