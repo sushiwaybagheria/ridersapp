@@ -3865,8 +3865,8 @@ License - nucleoapp.com/license/
   background-size: 150% 150%; }
 
 .sidebar .logo-img img {
-  max-width: 40px;
-  max-height: 40px; }
+  max-width: 250px;
+  max-height: 250px; }
 
 @media (max-width: 991px) {
   .sidebar .nav > li.active.active-pro {
