@@ -1,9 +1,9 @@
 // MezzoIcon.js
 import React from "react";
+import { GiScooter } from "react-icons/gi";
 import {
   FaCarSide,
   FaTruckPickup,
-  FaMoped,
   FaBicycle,
   FaTruckMonster,
 } from "react-icons/fa";
@@ -15,7 +15,7 @@ const MezzoIcon = ({ tipo }) => {
     case "MINICAR":
       return <FaTruckPickup title="Minicar" />;
     case "MOTO":
-      return <FaMoped title="Moto" />;
+      return <GiScooter title="Scooter" />;
     case "BICI":
       return <FaBicycle title="Bici" />;
     case "ALTRO":
