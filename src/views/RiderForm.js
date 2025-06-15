@@ -29,21 +29,31 @@ function RiderForm() {
 
 
 
-  useEffect(() => {
+useEffect(() => {
   if (id) {
     const fetchRider = async () => {
       const docRef = doc(db, "riders", id);
       const docSnap = await getDoc(docRef);
+
       if (docSnap.exists()) {
+        const data = docSnap.data();
         setRider({
-          id: docSnap.id,
-          ...docSnap.data()
+          nome: data.nome || "",
+          cognome: data.cognome || "",
+          eta: data.eta || "",
+          telefono: data.telefono || "",
+          mezzo: data.mezzo || "",
+          disponibilita: data.disponibilita ?? true,
+          numero_consegne: data.numero_consegne ?? 0,
+          note: data.note || "",
         });
       }
     };
+
     fetchRider();
   }
 }, [id]);
+
 
 
   const handleChange = (e) => {

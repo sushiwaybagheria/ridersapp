@@ -71,6 +71,16 @@ const dashboardRoutes = [
     layout: "/admin",
     invisible: true
   },
+
+{
+  path: "/rider-form/:id",
+  name: "Modifica Rider",
+  icon: "nc-icon nc-ruler-pencil",
+  component: RiderForm,
+  layout: "/admin",
+  invisible: true
+},
+
 {
   path: "/order-form",
   name: "Nuovo Ordine",
