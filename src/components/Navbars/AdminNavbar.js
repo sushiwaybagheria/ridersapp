@@ -31,8 +31,7 @@ history.push("/admin/rider-form");
 };
 
 const handleAddOrder = () => {
-  alert("Funzione 'Aggiungi Ordine' da implementare");
-  // In futuro potrai aprire un form o navigare a una pagina
+  history.push("/admin/order-form");
 };
 
 
