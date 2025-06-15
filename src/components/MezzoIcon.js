@@ -3,7 +3,7 @@ import React from "react";
 import {
   FaCarSide,
   FaTruckPickup,
-  FaMotorcycle,
+  FaMoped,
   FaBicycle,
   FaTruckMonster,
 } from "react-icons/fa";
@@ -15,7 +15,7 @@ const MezzoIcon = ({ tipo }) => {
     case "MINICAR":
       return <FaTruckPickup title="Minicar" />;
     case "MOTO":
-      return <FaMotorcycle title="Moto" />;
+      return <FaMoped title="Moto" />;
     case "BICI":
       return <FaBicycle title="Bici" />;
     case "ALTRO":
