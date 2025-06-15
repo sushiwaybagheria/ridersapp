@@ -1,43 +1,44 @@
 // RiderForm.jsx
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
+import { useHistory, useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
+import {
+  Button,
+  Card,
+  Form,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 
 function RiderForm() {
-  const { id } = useParams();
-  const history = useHistory();
-  const isEdit = Boolean(id);
-
   const [rider, setRider] = useState({
     nome: "",
     cognome: "",
     eta: "",
     telefono: "",
     mezzo: "",
-    note: ""
+    disponibilita: true,
+    numero_consegne: 0,
+    note: "",
   });
 
+  const history = useHistory();
+  const { id } = useParams();
+
   useEffect(() => {
-    if (isEdit) {
+    if (id) {
       const fetchRider = async () => {
-        try {
-          const docRef = doc(db, "riders", id);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setRider(docSnap.data());
-          } else {
-            alert("Rider non trovato");
-            history.push("/admin/riders");
-          }
-        } catch (error) {
-          console.error("Errore durante il recupero del rider:", error);
+        const docRef = doc(db, "riders", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setRider(docSnap.data());
         }
       };
       fetchRider();
     }
-  }, [id, isEdit, history]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,25 +48,35 @@ function RiderForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const docRef = doc(db, "riders", isEdit ? id : `${Date.now()}`);
-      await setDoc(docRef, {
-        ...rider,
-        data_reg: isEdit ? rider.data_reg : Timestamp.now(),
-      });
-      alert("Rider salvato correttamente");
+      if (id) {
+        const docRef = doc(db, "riders", id);
+        await updateDoc(docRef, rider);
+        alert("Rider aggiornato con successo!");
+      } else {
+        await addDoc(collection(db, "riders"), {
+          ...rider,
+          data_reg: Timestamp.now(),
+        });
+        alert("Rider aggiunto con successo!");
+      }
       history.push("/admin/riders");
     } catch (error) {
       console.error("Errore durante il salvataggio del rider:", error);
+      alert("Errore durante il salvataggio del rider");
     }
   };
 
+  const handleCancel = () => {
+    history.push("/admin/riders");
+  };
+
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Col md="8">
           <Card>
             <Card.Header>
-              <Card.Title as="h4">{isEdit ? "Modifica Rider" : "Aggiungi Rider"}</Card.Title>
+              <Card.Title as="h4">{id ? "Modifica Rider" : "Aggiungi Rider"}</Card.Title>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -74,24 +85,26 @@ function RiderForm() {
                     <Form.Group>
                       <label>Nome</label>
                       <Form.Control
+                        placeholder="Nome"
                         type="text"
                         name="nome"
                         value={rider.nome}
                         onChange={handleChange}
                         required
-                      />
+                      ></Form.Control>
                     </Form.Group>
                   </Col>
                   <Col md="6">
                     <Form.Group>
                       <label>Cognome</label>
                       <Form.Control
+                        placeholder="Cognome"
                         type="text"
                         name="cognome"
                         value={rider.cognome}
                         onChange={handleChange}
                         required
-                      />
+                      ></Form.Control>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -100,22 +113,24 @@ function RiderForm() {
                     <Form.Group>
                       <label>Età</label>
                       <Form.Control
+                        placeholder="Età"
                         type="number"
                         name="eta"
                         value={rider.eta}
                         onChange={handleChange}
-                      />
+                      ></Form.Control>
                     </Form.Group>
                   </Col>
                   <Col md="4">
                     <Form.Group>
                       <label>Telefono</label>
                       <Form.Control
+                        placeholder="Telefono"
                         type="text"
                         name="telefono"
                         value={rider.telefono}
                         onChange={handleChange}
-                      />
+                      ></Form.Control>
                     </Form.Group>
                   </Col>
                   <Col md="4">
@@ -143,17 +158,23 @@ function RiderForm() {
                     <Form.Group>
                       <label>Note</label>
                       <Form.Control
+                        placeholder="Note aggiuntive"
                         type="text"
                         name="note"
                         value={rider.note}
                         onChange={handleChange}
-                      />
+                      ></Form.Control>
                     </Form.Group>
                   </Col>
                 </Row>
-                <Button className="btn-fill pull-right" type="submit" variant="info">
-                  Salva
-                </Button>
+                <div className="d-flex justify-content-between">
+                  <Button className="btn-fill" type="submit" variant="info">
+                    {id ? "Aggiorna" : "Salva"} Rider
+                  </Button>
+                  <Button variant="secondary" onClick={handleCancel}>
+                    Annulla
+                  </Button>
+                </div>
                 <div className="clearfix"></div>
               </Form>
             </Card.Body>
