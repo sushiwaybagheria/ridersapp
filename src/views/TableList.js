@@ -19,7 +19,18 @@ function TableList() {
 
   const fetchRiders = async () => {
     const querySnapshot = await getDocs(collection(db, "riders"));
-    const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+
+
+const data = querySnapshot.docs.map((doc) => ({
+  id: doc.id, // 🔑 aggiungi l'id del documento Firestore
+  ...doc.data(),
+}));
+
+
+
+
+
     console.log("🟡 Riders caricati:", data);
     setRiders(data);
   };
