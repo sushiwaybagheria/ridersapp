@@ -1,16 +1,14 @@
-// src/views/Orders.js
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
 
-// react-bootstrap components
+// react-bootstrap
 import {
-  Button,
   Card,
   Table,
   Container,
   Row,
-  Col,
+  Col
 } from "react-bootstrap";
 
 function Orders() {
@@ -18,12 +16,14 @@ function Orders() {
 
   useEffect(() => {
     const fetchOrdini = async () => {
-      const querySnapshot = await getDocs(collection(db, "ordini_riders"));
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setOrdini(data);
+      try {
+        const querySnapshot = await getDocs(collection(db, "ordini_riders"));
+        const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        console.log("Dati ordini:", data);
+        setOrdini(data);
+      } catch (error) {
+        console.error("Errore nel recupero ordini:", error);
+      }
     };
 
     fetchOrdini();
@@ -36,37 +36,33 @@ function Orders() {
           <Card className="strpied-tabled-with-hover">
             <Card.Header>
               <Card.Title as="h4">Elenco Ordini</Card.Title>
-              <p className="card-category">Tutti gli ordini registrati</p>
+              <p className="card-category">Visualizza tutti gli ordini effettuati</p>
             </Card.Header>
             <Card.Body className="table-full-width table-responsive px-0">
               <Table className="table-hover table-striped">
                 <thead>
                   <tr>
-                    <th className="border-0">#</th>
-                    <th className="border-0">ID</th>
-                    <th className="border-0">Cliente</th>
-                    <th className="border-0">Telefono</th>
-                    <th className="border-0">Indirizzo</th>
-                    <th className="border-0">Orario</th>
-                    <th className="border-0">Stato</th>
-                    <th className="border-0">Assegnato A</th>
-                    <th className="border-0">Note</th>
-                    <th className="border-0">Data</th>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Telefono</th>
+                    <th>Indirizzo</th>
+                    <th>Rider</th>
+                    <th>Orario</th>
+                    <th>Note</th>
+                    <th>Data Inserimento</th>
                   </tr>
                 </thead>
                 <tbody>
                   {ordini.map((ordine, idx) => (
                     <tr key={ordine.id}>
                       <td>{idx + 1}</td>
-                      <td>{ordine.ID}</td>
-                      <td>{ordine.cliente}</td>
-                      <td>{ordine.telefono}</td>
-                      <td>{ordine.indirizzo}</td>
-                      <td>{ordine.orarioConsegna}</td>
-                      <td>{ordine.stato}</td>
-                      <td>{ordine.assegnatoA || "-"}</td>
-                      <td>{ordine.note}</td>
-                      <td>{ordine.dataConsegna}</td>
+                      <td>{ordine.cliente || "-"}</td>
+                      <td>{ordine.telefono || "-"}</td>
+                      <td>{ordine.indirizzo || "-"}</td>
+                      <td>{ordine.rider || "-"}</td>
+                      <td>{ordine.orario || "-"}</td>
+                      <td>{ordine.note || "-"}</td>
+                      <td>{ordine.timestamp?.toDate().toLocaleString() || "-"}</td>
                     </tr>
                   ))}
                 </tbody>
