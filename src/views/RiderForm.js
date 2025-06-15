@@ -114,15 +114,32 @@ function RiderForm() {
                     </Form.Group>
                   </Col>
                   <Col md="4">
-                    <Form.Group>
-                      <label>Mezzo</label>
-                      <Form.Control
-                        type="text"
-                        name="mezzo"
-                        value={formData.mezzo}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
+
+
+
+<Form.Group>
+  <label>Mezzo</label>
+  <Form.Control
+    as="select"
+    name="mezzo"
+    value={rider.mezzo}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Seleziona un mezzo</option>
+    <option value="AUTO">AUTO</option>
+    <option value="MOTO">MOTO</option>
+    <option value="BICI">BICI</option>
+    <option value="MINICAR">MINICAR</option>
+    <option value="ALTRO">ALTRO</option>
+  </Form.Control>
+</Form.Group>
+
+
+
+
+
+
                   </Col>
                 </Row>
 
