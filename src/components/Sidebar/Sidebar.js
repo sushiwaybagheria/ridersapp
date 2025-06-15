@@ -42,11 +42,11 @@ function Sidebar({ color, image, routes }) {
         }}
       />
       <div className="sidebar-wrapper">
-        <div className="logo d-flex align-items-center justify-content-start" style={{ height: "120px", padding: "10px" }}>
+        <div className="logo d-flex align-items-center justify-content-start" style={{ height: "120px", padding: "5px" }}>
 
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
-            className="simple-text logo-mini mx-1"
+            href="#"
+            className="simple-text logo mx-1"
           >
             <div className="logo-img">
               <img
