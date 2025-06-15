@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { doc, deleteDoc } from "firebase/firestore";
 
 // react-bootstrap components
 import {
@@ -18,13 +19,46 @@ function TableList() {
   useEffect(() => {
     const fetchRiders = async () => {
       const querySnapshot = await getDocs(collection(db, "riders"));
-      const data = querySnapshot.docs.map((doc) => doc.data());
+    const data = querySnapshot.docs.map((doc) => ({
+  id: doc.id,
+  ...doc.data(),
+}));
+
 console.log("🟡 Riders caricati:", data);
       setRiders(data);
     };
 
     fetchRiders();
   }, []);
+
+
+
+
+const handleDelete = async (id) => {
+  if (window.confirm("Vuoi eliminare questo rider?")) {
+    try {
+      await deleteDoc(doc(db, "riders", id));
+      setRiders((prev) => prev.filter((r) => r.id !== id));
+      alert("Rider eliminato con successo!");
+    } catch (error) {
+      console.error("Errore eliminazione:", error);
+      alert("Errore durante l'eliminazione");
+    }
+  }
+};
+
+const handleEditRider = (rider) => {
+  // Navigazione al form passando il rider (da implementare in RiderForm)
+  window.location.href = `/admin/rider-form?id=${rider.id}`;
+};
+
+
+
+
+
+
+
+
 
   return (
     <Container fluid>
@@ -73,6 +107,26 @@ console.log("🟡 Riders caricati:", data);
                       <td>{r.numero_consegne}</td>
                       <td>{r.note}</td>
                      <td>{r.data_reg?.toDate().toLocaleString()}</td>
+
+
+<td>
+  <Button
+    variant="warning"
+    size="sm"
+    className="me-2"
+    onClick={() => handleEditRider(r)}
+  >
+    Modifica
+  </Button>
+  <Button
+    variant="danger"
+    size="sm"
+    onClick={() => handleDelete(r.id)}
+  >
+    Elimina
+  </Button>
+</td>
+
 
                     </tr>
                   ))}
