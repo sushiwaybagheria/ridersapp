@@ -26,32 +26,32 @@ function RiderForm() {
 
   const history = useHistory();
   const { id } = useParams();
+const [loading, setLoading] = useState(true);
 
 
 
 useEffect(() => {
-  if (id) {
-    const fetchRider = async () => {
+  const fetchRider = async () => {
+    if (id) {
       const docRef = doc(db, "riders", id);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
         const data = docSnap.data();
         setRider({
           nome: data.nome || "",
           cognome: data.cognome || "",
-          eta: data.eta || "",
+          eta: data.eta?.toString() || "",
           telefono: data.telefono || "",
           mezzo: data.mezzo || "",
           disponibilita: data.disponibilita ?? true,
           numero_consegne: data.numero_consegne ?? 0,
-          note: data.note || "",
+          note: data.note || ""
         });
       }
-    };
-
-    fetchRider();
-  }
+    }
+    setLoading(false);
+  };
+  fetchRider();
 }, [id]);
 
 
@@ -85,6 +85,9 @@ useEffect(() => {
   const handleCancel = () => {
     history.push("/admin/riders");
   };
+
+
+if (loading) return <div>Caricamento dati rider...</div>;
 
   return (
     <Container fluid>
