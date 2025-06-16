@@ -1,32 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useHistory } from "react-router-dom";
 
 import {
   Card,
   Table,
   Container,
   Row,
-  Col
+  Col,
+  Button
 } from "react-bootstrap";
 
 function Orders() {
   const [ordini, setOrdini] = useState([]);
+  const history = useHistory();
+
+  const fetchOrdini = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "ordini_riders"));
+      const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      console.log("Dati ordini:", data);
+      setOrdini(data);
+    } catch (error) {
+      console.error("Errore nel recupero ordini:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchOrdini = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "ordini_riders"));
-        const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        console.log("Dati ordini:", data);
-        setOrdini(data);
-      } catch (error) {
-        console.error("Errore nel recupero ordini:", error);
-      }
-    };
-
     fetchOrdini();
   }, []);
+
+  const handleEdit = (ordineId) => {
+    console.log("🟠 Ordine ID su pulsante modifica:", ordineId);
+    history.push(`/admin/order-form/${ordineId}`);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Sei sicuro di voler eliminare questo ordine?")) {
+      await deleteDoc(doc(db, "ordini_riders", id));
+      fetchOrdini();
+    }
+  };
 
   return (
     <Container fluid>
@@ -46,13 +61,13 @@ function Orders() {
                     <th>FASCIA</th>
                     <th>Cliente</th>
                     <th>Indirizzo</th>
-                  
                     <th>Tel</th>
                     <th>Note</th>
                     <th>SPESE</th>
                     <th>PAG.</th>
                     <th>Tot.(€)</th>
                     <th>Data</th>
+                    <th>Azioni</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -67,7 +82,6 @@ function Orders() {
                         {ordine.civico ? `, ${ordine.civico}` : ""}
                         {ordine.interno ? `, int. ${ordine.interno}` : ""}
                       </td>
-                
                       <td>{ordine.telefono || "-"}</td>
                       <td style={{ maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {ordine.note || "-"}
@@ -76,6 +90,14 @@ function Orders() {
                       <td>{ordine.modalitaPagamento || "-"}</td>
                       <td>{ordine.totaleOrdine || "-"}</td>
                       <td>{ordine.dataConsegna || "-"}</td>
+                      <td>
+                        <Button variant="warning" size="sm" onClick={() => handleEdit(ordine.id)} className="me-1">
+                         ✏️
+                        </Button>
+                        <Button variant="danger" size="sm" onClick={() => handleDelete(ordine.id)}>
+                          🗑️
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
