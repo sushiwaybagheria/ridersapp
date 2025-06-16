@@ -87,7 +87,7 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="4">
+                  <Col md="6">
                     <Form.Group>
                       <label>Cliente</label>
                       <Form.Control
@@ -98,7 +98,7 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="2">
+                  <Col md="4">
                     <Form.Group>
                       <label>Telefono</label>
                       <Form.Control
