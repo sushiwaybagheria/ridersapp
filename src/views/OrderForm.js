@@ -67,7 +67,7 @@ function OrderForm() {
   return (
     <Container fluid>
       <Row>
-        <Col md="4">
+        <Col md="8">
           <Card>
             <Card.Header>
               <Card.Title as="h4">Aggiungi Ordine</Card.Title>
