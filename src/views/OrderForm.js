@@ -75,7 +75,7 @@ function OrderForm() {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col md="4">
+                  <Col md="2">
                     <Form.Group>
                       <label>ID</label>
                       <Form.Control
@@ -98,7 +98,7 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="4">
+                  <Col md="2">
                     <Form.Group>
                       <label>Telefono</label>
                       <Form.Control
