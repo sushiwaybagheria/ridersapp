@@ -154,38 +154,68 @@ function OrderForm() {
                   </Col>
                 </Row>
 
-                <Row>
-                  <Col md="4">
-                    <Form.Group>
-                      <label>Orario Consegna</label>
-                      <Form.Control
-                        name="orarioConsegna"
-                        value={order.orarioConsegna}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md="4">
-                    <Form.Group>
-                      <label>Spese di Consegna</label>
-                      <Form.Control
-                        name="speseConsegna"
-                        value={order.speseConsegna}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md="4">
-                    <Form.Group>
-                      <label>Modalità di Pagamento</label>
-                      <Form.Control
-                        name="modalitaPagamento"
-                        value={order.modalitaPagamento}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+
+
+
+
+
+
+
+
+           <Row>
+  <Col md="4">
+    <Form.Group>
+      <label>Fascia Oraria</label>
+      <Form.Select
+        name="orarioConsegna"
+        value={order.orarioConsegna}
+        onChange={handleChange}
+      >
+        <option value="">Seleziona fascia</option>
+        <option value="18/20">18/20</option>
+        <option value="20/22">20/22</option>
+        <option value="Altro">Altro</option>
+      </Form.Select>
+    </Form.Group>
+  </Col>
+  <Col md="4">
+    <Form.Group>
+      <label>Spese di Consegna</label>
+      <Form.Control
+        name="speseConsegna"
+        value={order.speseConsegna}
+        onChange={handleChange}
+      />
+    </Form.Group>
+  </Col>
+  <Col md="4">
+    <Form.Group>
+      <label>Modalità di Pagamento</label>
+      <Form.Select
+        name="modalitaPagamento"
+        value={order.modalitaPagamento}
+        onChange={handleChange}
+      >
+        <option value="">Seleziona metodo</option>
+        <option value="CONTANTI">CONTANTI</option>
+        <option value="POS">POS</option>
+        <option value="PAGATO">PAGATO</option>
+      </Form.Select>
+    </Form.Group>
+  </Col>
+</Row>
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <Row>
                   <Col md="8">

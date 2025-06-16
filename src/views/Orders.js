@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
-// react-bootstrap
 import {
   Card,
   Table,
@@ -43,16 +42,16 @@ function Orders() {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>ID Ordine</th>
-                    <th>Fascia Oraria</th>
+                    <th>ORD</th>
+                    <th>FASCIA</th>
                     <th>Cliente</th>
                     <th>Indirizzo</th>
                     <th>Email</th>
-                    <th>Telefono</th>
+                    <th>Tel</th>
                     <th>Note</th>
-                    <th>Spese Consegna</th>
-                    <th>Pagamento</th>
-                    <th>Totale (€)</th>
+                    <th>SPESE</th>
+                    <th>PAG.</th>
+                    <th>Tot.(€)</th>
                     <th>Data</th>
                   </tr>
                 </thead>
@@ -70,7 +69,9 @@ function Orders() {
                       </td>
                       <td>{ordine.email || "-"}</td>
                       <td>{ordine.telefono || "-"}</td>
-                      <td>{ordine.note || "-"}</td>
+                      <td style={{ maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {ordine.note || "-"}
+                      </td>
                       <td>{ordine.speseConsegna || "-"}</td>
                       <td>{ordine.modalitaPagamento || "-"}</td>
                       <td>{ordine.totaleOrdine || "-"}</td>
