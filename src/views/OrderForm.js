@@ -168,16 +168,22 @@ function OrderForm() {
       <Form.Label style={{ display: "block", color: "#565656" }}>
         Fascia Oraria
       </Form.Label>
+
+
       <Form.Select
         name="orarioConsegna"
         value={order.orarioConsegna}
         onChange={handleChange}
+className="form-control"
         style={{ color: "#565656", borderColor: "#e3e3e3" }}
       >
         <option value="18/20">18/20</option>
         <option value="20/22">20/22</option>
         <option value="Altro">Altro</option>
       </Form.Select>
+
+
+
     </Form.Group>
   </Col>
   <Col md="4">
@@ -199,6 +205,7 @@ function OrderForm() {
         name="modalitaPagamento"
         value={order.modalitaPagamento}
         onChange={handleChange}
+className="form-control"
         style={{ color: "#565656", borderColor: "#e3e3e3" }}
       >
         <option value="CONTANTI">CONTANTI</option>
