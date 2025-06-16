@@ -20,7 +20,7 @@ function OrderForm() {
     indirizzo: "",
     civico: "",
     interno: "",
-    email: "",
+   
     telefono: "",
     orarioConsegna: "18/20",
     note: "",
@@ -50,7 +50,7 @@ function OrderForm() {
         indirizzo: "",
         civico: "",
         interno: "",
-        email: "",
+        
         telefono: "",
         orarioConsegna: "",
         note: "",
@@ -67,7 +67,7 @@ function OrderForm() {
   return (
     <Container fluid>
       <Row>
-        <Col md="8">
+        <Col md="4">
           <Card>
             <Card.Header>
               <Card.Title as="h4">Aggiungi Ordine</Card.Title>
@@ -75,7 +75,7 @@ function OrderForm() {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col md="3">
+                  <Col md="4">
                     <Form.Group>
                       <label>ID</label>
                       <Form.Control
@@ -87,7 +87,7 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="3">
+                  <Col md="4">
                     <Form.Group>
                       <label>Cliente</label>
                       <Form.Control
@@ -98,7 +98,7 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="3">
+                  <Col md="4">
                     <Form.Group>
                       <label>Telefono</label>
                       <Form.Control
@@ -108,17 +108,18 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="3">
-                    <Form.Group>
-                      <label>Email</label>
-                      <Form.Control
-                        type="email"
-                        name="email"
-                        value={order.email}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Col>
+
+              
+
+
+
+
+
+
+
+
+
+
                 </Row>
 
                 <Row>

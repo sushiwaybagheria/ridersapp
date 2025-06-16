@@ -46,7 +46,7 @@ function Orders() {
                     <th>FASCIA</th>
                     <th>Cliente</th>
                     <th>Indirizzo</th>
-                    <th>Email</th>
+                  
                     <th>Tel</th>
                     <th>Note</th>
                     <th>SPESE</th>
@@ -67,7 +67,7 @@ function Orders() {
                         {ordine.civico ? `, ${ordine.civico}` : ""}
                         {ordine.interno ? `, int. ${ordine.interno}` : ""}
                       </td>
-                      <td>{ordine.email || "-"}</td>
+                
                       <td>{ordine.telefono || "-"}</td>
                       <td style={{ maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {ordine.note || "-"}
