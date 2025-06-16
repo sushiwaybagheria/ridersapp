@@ -22,10 +22,10 @@ function OrderForm() {
     interno: "",
     email: "",
     telefono: "",
-    orarioConsegna: "",
+    orarioConsegna: "18/20",
     note: "",
     speseConsegna: "",
-    modalitaPagamento: "",
+    modalitaPagamento: "CONTANTI",
     totaleOrdine: "",
   });
 
@@ -165,13 +165,15 @@ function OrderForm() {
            <Row>
   <Col md="4">
     <Form.Group>
-      <label>Fascia Oraria</label>
+      <Form.Label style={{ display: "block", color: "#565656" }}>
+        Fascia Oraria
+      </Form.Label>
       <Form.Select
         name="orarioConsegna"
         value={order.orarioConsegna}
         onChange={handleChange}
+        style={{ color: "#565656", borderColor: "#e3e3e3" }}
       >
-        <option value="">Seleziona fascia</option>
         <option value="18/20">18/20</option>
         <option value="20/22">20/22</option>
         <option value="Altro">Altro</option>
@@ -180,7 +182,7 @@ function OrderForm() {
   </Col>
   <Col md="4">
     <Form.Group>
-      <label>Spese di Consegna</label>
+      <Form.Label style={{ color: "#565656" }}>Spese di Consegna</Form.Label>
       <Form.Control
         name="speseConsegna"
         value={order.speseConsegna}
@@ -190,13 +192,15 @@ function OrderForm() {
   </Col>
   <Col md="4">
     <Form.Group>
-      <label>Modalità di Pagamento</label>
+      <Form.Label style={{ display: "block", color: "#565656" }}>
+        Modalità di Pagamento
+      </Form.Label>
       <Form.Select
         name="modalitaPagamento"
         value={order.modalitaPagamento}
         onChange={handleChange}
+        style={{ color: "#565656", borderColor: "#e3e3e3" }}
       >
-        <option value="">Seleziona metodo</option>
         <option value="CONTANTI">CONTANTI</option>
         <option value="POS">POS</option>
         <option value="PAGATO">PAGATO</option>
@@ -204,6 +208,7 @@ function OrderForm() {
     </Form.Group>
   </Col>
 </Row>
+
 
 
 
