@@ -1,5 +1,7 @@
+// OrderForm.jsx
+
 import React, { useState } from "react";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 
 import {
@@ -16,9 +18,15 @@ function OrderForm() {
     ID: "",
     cliente: "",
     indirizzo: "",
+    civico: "",
+    interno: "",
+    email: "",
     telefono: "",
     orarioConsegna: "",
     note: "",
+    speseConsegna: "",
+    modalitaPagamento: "",
+    totaleOrdine: "",
   });
 
   const handleChange = (e) => {
@@ -40,9 +48,15 @@ function OrderForm() {
         ID: "",
         cliente: "",
         indirizzo: "",
+        civico: "",
+        interno: "",
+        email: "",
         telefono: "",
         orarioConsegna: "",
         note: "",
+        speseConsegna: "",
+        modalitaPagamento: "",
+        totaleOrdine: "",
       });
     } catch (error) {
       console.error("Errore durante l'aggiunta dell'ordine:", error);
@@ -61,11 +75,11 @@ function OrderForm() {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col md="4">
+                  <Col md="3">
                     <Form.Group>
                       <label>ID</label>
                       <Form.Control
-                        type="number"
+                        type="text"
                         name="ID"
                         value={order.ID}
                         onChange={handleChange}
@@ -73,7 +87,7 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="4">
+                  <Col md="3">
                     <Form.Group>
                       <label>Cliente</label>
                       <Form.Control
@@ -84,12 +98,23 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="4">
+                  <Col md="3">
                     <Form.Group>
                       <label>Telefono</label>
                       <Form.Control
                         name="telefono"
                         value={order.telefono}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md="3">
+                    <Form.Group>
+                      <label>Email</label>
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={order.email}
                         onChange={handleChange}
                       />
                     </Form.Group>
@@ -107,7 +132,30 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md="6">
+                  <Col md="3">
+                    <Form.Group>
+                      <label>Civico</label>
+                      <Form.Control
+                        name="civico"
+                        value={order.civico}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md="3">
+                    <Form.Group>
+                      <label>Interno</label>
+                      <Form.Control
+                        name="interno"
+                        value={order.interno}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="4">
                     <Form.Group>
                       <label>Orario Consegna</label>
                       <Form.Control
@@ -117,15 +165,45 @@ function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
+                  <Col md="4">
+                    <Form.Group>
+                      <label>Spese di Consegna</label>
+                      <Form.Control
+                        name="speseConsegna"
+                        value={order.speseConsegna}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md="4">
+                    <Form.Group>
+                      <label>Modalità di Pagamento</label>
+                      <Form.Control
+                        name="modalitaPagamento"
+                        value={order.modalitaPagamento}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
                 </Row>
 
                 <Row>
-                  <Col md="12">
+                  <Col md="8">
                     <Form.Group>
                       <label>Note</label>
                       <Form.Control
                         name="note"
                         value={order.note}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md="4">
+                    <Form.Group>
+                      <label>Totale Ordine (€)</label>
+                      <Form.Control
+                        name="totaleOrdine"
+                        value={order.totaleOrdine}
                         onChange={handleChange}
                       />
                     </Form.Group>

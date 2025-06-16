@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
-
 // react-bootstrap
 import {
   Card,
@@ -44,26 +43,38 @@ function Orders() {
                 <thead>
                   <tr>
                     <th>#</th>
+                    <th>ID Ordine</th>
+                    <th>Fascia Oraria</th>
                     <th>Cliente</th>
-                    <th>Telefono</th>
                     <th>Indirizzo</th>
-                    <th>Rider</th>
-                    <th>Orario</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
                     <th>Note</th>
-                    <th>Data Inserimento</th>
+                    <th>Spese Consegna</th>
+                    <th>Pagamento</th>
+                    <th>Totale (€)</th>
+                    <th>Data</th>
                   </tr>
                 </thead>
                 <tbody>
                   {ordini.map((ordine, idx) => (
                     <tr key={ordine.id}>
                       <td>{idx + 1}</td>
+                      <td>{ordine.ID || "-"}</td>
+                      <td>{ordine.orarioConsegna || "-"}</td>
                       <td>{ordine.cliente || "-"}</td>
+                      <td>
+                        {ordine.indirizzo || "-"}
+                        {ordine.civico ? `, ${ordine.civico}` : ""}
+                        {ordine.interno ? `, int. ${ordine.interno}` : ""}
+                      </td>
+                      <td>{ordine.email || "-"}</td>
                       <td>{ordine.telefono || "-"}</td>
-                      <td>{ordine.indirizzo || "-"}</td>
-                      <td>{ordine.rider || "-"}</td>
-                      <td>{ordine.orario || "-"}</td>
                       <td>{ordine.note || "-"}</td>
-                      <td>{ordine.timestamp?.toDate().toLocaleString() || "-"}</td>
+                      <td>{ordine.speseConsegna || "-"}</td>
+                      <td>{ordine.modalitaPagamento || "-"}</td>
+                      <td>{ordine.totaleOrdine || "-"}</td>
+                      <td>{ordine.dataConsegna || "-"}</td>
                     </tr>
                   ))}
                 </tbody>
