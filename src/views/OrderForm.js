@@ -10,6 +10,12 @@ function OrderForm() {
   const { id } = useParams();
   const history = useHistory();
 
+
+const handleCancel = () => {
+  history.push("/admin/orders");
+};
+
+
   const [order, setOrder] = useState({
     ID: "",
     cliente: "",
@@ -186,24 +192,40 @@ className="form-control"
 
                 <Row>
                   <Col md="8">
-                    <Form.Group>
-                      <label>Note</label>
-                      <Form.Control name="note" value={order.note} onChange={handleChange} />
-                    </Form.Group>
-                  </Col>
-                  <Col md="4">
-                    <Form.Group>
-                      <label>Totale Ordine (€)</label>
-                      <Form.Control name="totaleOrdine" value={order.totaleOrdine} onChange={handleChange} />
-                    </Form.Group>
-                  </Col>
-                </Row>
 
-                <Button className="btn-fill pull-right" type="submit" variant="info">
-                  Salva Ordine
-                </Button>
-                <div className="clearfix"></div>
-              </Form>
+
+
+
+                   <Form.Group>
+  <label>Note</label>
+  <Form.Control name="note" value={order.note} onChange={handleChange} />
+</Form.Group>
+</Col>
+<Col md="4">
+  <Form.Group>
+    <label>Totale Ordine (€)</label>
+    <Form.Control name="totaleOrdine" value={order.totaleOrdine} onChange={handleChange} />
+  </Form.Group>
+</Col>
+</Row>
+
+<div className="d-flex justify-content-between">
+  <Button className="btn-fill" type="submit" variant="info">
+    {id ? "Aggiorna" : "Salva"} Ordine
+  </Button>
+  <Button variant="secondary" onClick={handleCancel}>
+    Annulla
+  </Button>
+</div>
+
+<div className="clearfix"></div>
+</Form>
+
+
+
+
+
+
             </Card.Body>
           </Card>
         </Col>
