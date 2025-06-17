@@ -24,23 +24,43 @@ function OrderForm() {
     totaleOrdine: "",
   });
 
-  useEffect(() => {
-    const fetchOrder = async () => {
-      if (!id) return;
-      try {
-        const docRef = doc(db, "ordini_riders", id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setOrder(docSnap.data());
-        } else {
-          alert("Ordine non trovato");
-        }
-      } catch (error) {
-        console.error("Errore nel recupero dell'ordine:", error);
+
+
+
+
+
+ useEffect(() => {
+  const fetchOrder = async () => {
+    console.log("🧪 ID dell’ordine ricevuto da URL:", id);
+
+    if (!id) return;
+
+    try {
+      const docRef = doc(db, "ordini_riders", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log("✅ Documento trovato:", data);
+        setOrder(data);
+        console.log("📦 Stato aggiornato con:", data);
+      } else {
+        console.warn("⚠️ Documento non trovato in Firestore");
       }
-    };
-    fetchOrder();
-  }, [id]);
+    } catch (error) {
+      console.error("❌ Errore nel caricamento ordine:", error);
+    }
+  };
+
+  fetchOrder();
+}, [id]);
+
+
+
+
+
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

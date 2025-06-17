@@ -16,6 +16,7 @@
 
 */
 import RiderForm from "views/RiderForm.js";
+import OrderForm from "views/OrderForm.js";
 
 import React, { Component } from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
@@ -80,18 +81,28 @@ function Admin() {
 
 
 
-
 <Switch>
-  {/* Route dinamica prima */}
+  {/* Route dinamiche prima */}
   <Route
     path="/admin/rider-form/:id"
     exact
     render={(props) => <RiderForm {...props} />}
   />
+  <Route
+    path="/admin/order-form/:id"
+    exact
+    render={(props) => <OrderForm {...props} />}
+  />
+  <Route
+    path="/admin/order-form"
+    exact
+    render={(props) => <OrderForm {...props} />}
+  />
 
   {/* Altre rotte generate dal file routes.js */}
   {getRoutes(routes)}
 </Switch>
+
 
 
           </div>
