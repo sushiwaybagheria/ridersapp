@@ -148,7 +148,11 @@ function OrderForm() {
                   <Col md="4">
                     <Form.Group>
                       <Form.Label style={{ color: "#565656" }}>Fascia Oraria</Form.Label>
-                      <Form.Select name="orarioConsegna" value={order.orarioConsegna} onChange={handleChange}>
+                      <Form.Select name="orarioConsegna" value={order.orarioConsegna} onChange={handleChange}
+
+className="form-control"
+        style={{ color: "#565656", borderColor: "#e3e3e3" }}
+      >
                         <option value="18/20">18/20</option>
                         <option value="20/22">20/22</option>
                         <option value="Altro">Altro</option>
@@ -164,7 +168,14 @@ function OrderForm() {
                   <Col md="4">
                     <Form.Group>
                       <Form.Label style={{ color: "#565656" }}>Modalità di Pagamento</Form.Label>
-                      <Form.Select name="modalitaPagamento" value={order.modalitaPagamento} onChange={handleChange}>
+                      <Form.Select name="modalitaPagamento" value={order.modalitaPagamento} onChange={handleChange}
+
+
+
+
+className="form-control"
+        style={{ color: "#565656", borderColor: "#e3e3e3" }}
+      >
                         <option value="CONTANTI">CONTANTI</option>
                         <option value="POS">POS</option>
                         <option value="PAGATO">PAGATO</option>
