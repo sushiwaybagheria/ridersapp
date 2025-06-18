@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
-import { Modal. Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { updateDoc, where, query } from "firebase/firestore";
 
 
