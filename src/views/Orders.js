@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
+import { Modal. Form } from "react-bootstrap";
+import { updateDoc, where, query } from "firebase/firestore";
+
 
 import {
   Card,
@@ -15,6 +18,17 @@ import {
 function Orders() {
   const [ordini, setOrdini] = useState([]);
   const history = useHistory();
+  const [showModal, setShowModal] = useState(false);
+  const [ridersDisponibili, setRidersDisponibili] = useState([]);
+  const [ordineSelezionato, setOrdineSelezionato] = useState(null);
+  const [riderScelto, setRiderScelto] = useState("");
+
+
+
+
+
+
+
 
   const fetchOrdini = async () => {
     try {
@@ -35,6 +49,40 @@ function Orders() {
     console.log("🟠 Ordine ID su pulsante modifica:", ordineId);
     history.push(`/admin/order-form/${ordineId}`);
   };
+
+
+
+
+
+
+const apriModaleAssegna = async (ordine) => {
+  setOrdineSelezionato(ordine);
+  setShowModal(true);
+
+  const q = query(collection(db, "riders"), where("disponibilita", "==", true));
+  const snapshot = await getDocs(q);
+  const riders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  setRidersDisponibili(riders);
+};
+
+const assegnaOrdine = async () => {
+  if (!riderScelto || !ordineSelezionato) return;
+
+  const ordineRef = doc(db, "ordini_riders", ordineSelezionato.id);
+  await updateDoc(ordineRef, { assegnatoA: riderScelto });
+
+  setShowModal(false);
+  setRiderScelto("");
+  setOrdineSelezionato(null);
+  fetchOrdini();
+};
+
+
+
+
+
+
+
 
   const handleDelete = async (id) => {
     if (window.confirm("Sei sicuro di voler eliminare questo ordine?")) {
@@ -91,12 +139,31 @@ function Orders() {
                       <td>{ordine.totaleOrdine || "-"}</td>
                       <td>{ordine.dataConsegna || "-"}</td>
                       <td>
-                        <Button variant="warning" size="sm" onClick={() => handleEdit(ordine.id)} className="me-1">
-                         ✏️
-                        </Button>
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(ordine.id)}>
-                          🗑️
-                        </Button>
+                       
+
+
+
+
+
+
+
+
+<Button variant="warning" size="sm" onClick={() => handleEdit(ordine.id)} className="me-1">
+  ✏️
+</Button>
+
+<Button variant="primary" size="sm" onClick={() => apriModaleAssegna(ordine)} className="me-1">
+  📋
+</Button>
+
+<Button variant="danger" size="sm" onClick={() => handleDelete(ordine.id)}>
+  🗑️
+</Button>
+
+
+
+
+
                       </td>
                     </tr>
                   ))}
@@ -105,6 +172,46 @@ function Orders() {
             </Card.Body>
           </Card>
         </Col>
+
+
+
+
+
+<Modal show={showModal} onHide={() => setShowModal(false)}>
+  <Modal.Header closeButton>
+    <Modal.Title>Assegna Ordine</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <p>Seleziona un rider disponibile:</p>
+    <Form.Select
+      value={riderScelto}
+      onChange={(e) => setRiderScelto(e.target.value)}
+    >
+      <option value="">-- Seleziona un rider --</option>
+      {ridersDisponibili.map((rider) => (
+        <option key={rider.id} value={rider.id}>
+          {rider.nome} {rider.cognome}
+        </option>
+      ))}
+    </Form.Select>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Annulla
+    </Button>
+    <Button
+      variant="success"
+      onClick={assegnaOrdine}
+      disabled={!riderScelto}
+    >
+      Assegna
+    </Button>
+  </Modal.Footer>
+</Modal>
+
+
+
+
       </Row>
     </Container>
   );
