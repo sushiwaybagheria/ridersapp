@@ -6,16 +6,15 @@ import { useHistory } from "react-router-dom";
 import { updateDoc, where, query } from "firebase/firestore";
 
 
-import {
-  Modal,
-  Form,
-  Card,
-  Table,
-  Container,
-  Row,
-  Col,
-  Button
-} from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Table from "react-bootstrap/Table";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+
 
 
 function Orders() {
