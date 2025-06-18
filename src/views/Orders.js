@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
-import { Modal, Form } from "react-bootstrap";
+
 import { updateDoc, where, query } from "firebase/firestore";
 
 
 import {
+  Modal,
+  Form,
   Card,
   Table,
   Container,
@@ -14,6 +16,7 @@ import {
   Col,
   Button
 } from "react-bootstrap";
+
 
 function Orders() {
   const [ordini, setOrdini] = useState([]);
