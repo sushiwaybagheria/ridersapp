@@ -101,77 +101,90 @@ const assegnaOrdine = async () => {
             <Card.Header>
               <Card.Title as="h4">Elenco Ordini</Card.Title>
               <p className="card-category">Visualizza tutti gli ordini effettuati</p>
+
+
+
+
+
             </Card.Header>
-            <Card.Body className="table-full-width table-responsive px-0">
-              <Table className="table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>ORD</th>
-                    <th>FASCIA</th>
-                    <th>Cliente</th>
-                    <th>Indirizzo</th>
-                    <th>Tel</th>
-                    <th>Note</th>
-                    <th>SPESE</th>
-                    <th>PAG.</th>
-                    <th>Tot.(€)</th>
-                    <th>Data</th>
-                    <th>Azioni</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {ordini.map((ordine, idx) => (
-                    <tr key={ordine.id}>
-                      <td>{idx + 1}</td>
-                      <td>{ordine.ID || "-"}</td>
-                      <td>{ordine.orarioConsegna || "-"}</td>
-                      <td>{ordine.cliente || "-"}</td>
-                      <td>
-                        {ordine.indirizzo || "-"}
-                        {ordine.civico ? `, ${ordine.civico}` : ""}
-                        {ordine.interno ? `, int. ${ordine.interno}` : ""}
-                      </td>
-                      <td>{ordine.telefono || "-"}</td>
-                      <td style={{ maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {ordine.note || "-"}
-                      </td>
-                      <td>{ordine.speseConsegna || "-"}</td>
-                      <td>{ordine.modalitaPagamento || "-"}</td>
-                      <td>{ordine.totaleOrdine || "-"}</td>
-                      <td>{ordine.dataConsegna || "-"}</td>
-                      <td>
-                       
+
+
+           <Card.Body className="table-full-width table-responsive px-0">
+  <Table className="table-hover table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ORD</th>
+        <th>FASCIA</th>
+        <th>Cliente</th>
+        <th>Indirizzo</th>
+        <th>Tel</th>
+        <th>Note</th>
+        <th>SPESE</th>
+        <th>PAG.</th>
+        <th>Tot.(€)</th>
+        <th>Data</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      {ordini.map((ordine, idx) => (
+        <tr key={ordine.id}>
+          <td>{idx + 1}</td>
+          <td>{ordine.ID || "-"}</td>
+          <td>{ordine.orarioConsegna || "-"}</td>
+          <td>{ordine.cliente || "-"}</td>
+          <td>
+            {ordine.indirizzo || "-"}
+            {ordine.civico ? `, ${ordine.civico}` : ""}
+            {ordine.interno ? `, int. ${ordine.interno}` : ""}
+          </td>
+          <td>{ordine.telefono || "-"}</td>
+          <td style={{ maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {ordine.note || "-"}
+          </td>
+          <td>{ordine.speseConsegna || "-"}</td>
+          <td>{ordine.modalitaPagamento || "-"}</td>
+          <td>{ordine.totaleOrdine || "-"}</td>
+          <td>{ordine.dataConsegna || "-"}</td>
+          <td>
+            <Button variant="warning" size="sm" onClick={() => handleEdit(ordine.id)} className="me-1">✏️</Button>
+            <Button variant="primary" size="sm" onClick={() => apriModaleAssegna(ordine)} className="me-1">📋</Button>
+            <Button variant="danger" size="sm" onClick={() => handleDelete(ordine.id)}>🗑️</Button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
+
+  {/* 👇 Modal spostato dentro Card.Body */}
+  <Modal show={showModal} onHide={() => setShowModal(false)}>
+    <Modal.Header closeButton>
+      <Modal.Title>Assegna Ordine</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p>Seleziona un rider disponibile:</p>
+      <Form.Select
+        value={riderScelto}
+        onChange={(e) => setRiderScelto(e.target.value)}
+      >
+        <option value="">-- Seleziona un rider --</option>
+        {ridersDisponibili.map((rider) => (
+          <option key={rider.id} value={rider.id}>
+            {rider.nome} {rider.cognome}
+          </option>
+        ))}
+      </Form.Select>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={() => setShowModal(false)}>Annulla</Button>
+      <Button variant="success" onClick={assegnaOrdine} disabled={!riderScelto}>Assegna</Button>
+    </Modal.Footer>
+  </Modal>
+</Card.Body>
 
 
 
-
-
-
-
-
-<Button variant="warning" size="sm" onClick={() => handleEdit(ordine.id)} className="me-1">
-  ✏️
-</Button>
-
-<Button variant="primary" size="sm" onClick={() => apriModaleAssegna(ordine)} className="me-1">
-  📋
-</Button>
-
-<Button variant="danger" size="sm" onClick={() => handleDelete(ordine.id)}>
-  🗑️
-</Button>
-
-
-
-
-
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card.Body>
           </Card>
         </Col>
 
