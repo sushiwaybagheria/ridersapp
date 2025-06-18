@@ -173,7 +173,7 @@ const assegnaOrdine = async () => {
           </Card>
         </Col>
 
-
+  </Row>
 
 
 
@@ -212,7 +212,7 @@ const assegnaOrdine = async () => {
 
 
 
-      </Row>
+    
     </Container>
   );
 }
