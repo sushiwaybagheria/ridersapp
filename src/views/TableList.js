@@ -114,9 +114,9 @@ function TableList() {
                               </Tooltip>
                             }
                           >
-                            <span style={{ cursor: "default" }}>
-                              {hasOrdini ? "🟢" : "🔴"}
-                            </span>
+                           <div style={{ display: "inline-block", cursor: "pointer" }}>
+  {hasOrdini ? "🟢" : "🔴"}
+</div>
                           </OverlayTrigger>
                         </td>
                         <td>{r.note}</td>
