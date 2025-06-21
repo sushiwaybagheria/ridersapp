@@ -4,9 +4,10 @@ import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
 
 import { updateDoc, where, query } from "firebase/firestore";
+import "../assets/css/modal.css";
 
 
-import Modal from "react-bootstrap/Modal";
+
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
@@ -157,12 +158,22 @@ const assegnaOrdine = async () => {
     </tbody>
   </Table>
 
-  {/* 👇 Modal spostato dentro Card.Body */}
-  <Modal show={showModal} onHide={() => setShowModal(false)}>
-    <Modal.Header closeButton>
-      <Modal.Title>Assegna Ordine</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
+  
+</Card.Body>
+
+
+
+          </Card>
+        </Col>
+
+  </Row>
+
+
+{/* ✅ Modal personalizzato */}
+{showModal && (
+  <div className="custom-modal-overlay">
+    <div className="custom-modal-content">
+      <h4>Assegna Ordine</h4>
       <p>Seleziona un rider disponibile:</p>
       <Form.Select
         value={riderScelto}
@@ -175,54 +186,23 @@ const assegnaOrdine = async () => {
           </option>
         ))}
       </Form.Select>
-    </Modal.Body>
-    <Modal.Footer>
-      <Button variant="secondary" onClick={() => setShowModal(false)}>Annulla</Button>
-      <Button variant="success" onClick={assegnaOrdine} disabled={!riderScelto}>Assegna</Button>
-    </Modal.Footer>
-  </Modal>
-</Card.Body>
 
+      <div className="custom-modal-buttons mt-3 d-flex justify-content-between">
+        <Button variant="secondary" onClick={() => setShowModal(false)}>
+          Annulla
+        </Button>
+        <Button
+          variant="success"
+          onClick={assegnaOrdine}
+          disabled={!riderScelto}
+        >
+          Assegna
+        </Button>
+      </div>
+    </div>
+  </div>
+)}
 
-
-          </Card>
-        </Col>
-
-  </Row>
-
-
-
-<Modal show={showModal} onHide={() => setShowModal(false)}>
-  <Modal.Header closeButton>
-    <Modal.Title>Assegna Ordine</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <p>Seleziona un rider disponibile:</p>
-    <Form.Select
-      value={riderScelto}
-      onChange={(e) => setRiderScelto(e.target.value)}
-    >
-      <option value="">-- Seleziona un rider --</option>
-      {ridersDisponibili.map((rider) => (
-        <option key={rider.id} value={rider.id}>
-          {rider.nome} {rider.cognome}
-        </option>
-      ))}
-    </Form.Select>
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
-      Annulla
-    </Button>
-    <Button
-      variant="success"
-      onClick={assegnaOrdine}
-      disabled={!riderScelto}
-    >
-      Assegna
-    </Button>
-  </Modal.Footer>
-</Modal>
 
 
 
