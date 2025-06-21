@@ -103,22 +103,43 @@ function TableList() {
                         <td>{r.telefono}</td>
                         <td><MezzoIcon tipo={r.mezzo} /></td>
                         <td>{r.disponibilita}</td>
-                        <td>
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={
-                              <Tooltip>
-                                {hasOrdini
-                                  ? `Ordini: ${ordini.join(", ")}`
-                                  : "Nessun ordine assegnato"}
-                              </Tooltip>
-                            }
-                          >
-                           <div style={{ display: "inline-block", cursor: "pointer" }}>
-  {hasOrdini ? "🟢" : "🔴"}
-</div>
-                          </OverlayTrigger>
-                        </td>
+                       
+
+
+
+
+
+
+
+
+<td>
+  <OverlayTrigger
+    placement="top"
+    overlay={
+      <Tooltip>
+        {ordini.length > 0
+          ? `Ordini: ${ordini.join(", ")}`
+          : "Nessun ordine assegnato"}
+      </Tooltip>
+    }
+  >
+    <div style={{ display: "inline-block", cursor: "pointer" }}>
+      {ordini.length > 0 ? "🟢" : "🔴"}
+    </div>
+  </OverlayTrigger>
+</td>
+
+
+
+
+
+
+
+
+
+
+
+
                         <td>{r.note}</td>
                         <td>{r.data_reg?.toDate().toLocaleString()}</td>
                         <td>
