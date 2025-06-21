@@ -119,7 +119,7 @@ function TableList() {
       <Tooltip>
         {ordini.length > 0
           ? `Ordini: ${ordini.join(", ")}`
-          : "Nessun ordine assegnato"}
+          : "Nessun ordine"}
       </Tooltip>
     }
   >
@@ -128,6 +128,7 @@ function TableList() {
     </div>
   </OverlayTrigger>
 </td>
+
 
 
 
