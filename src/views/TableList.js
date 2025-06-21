@@ -13,22 +13,15 @@ import {
   Row,
   Col,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
 } from "react-bootstrap";
-
-
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-
-
-
 
 function TableList() {
   const [riders, setRiders] = useState([]);
   const [ordiniAssegnati, setOrdiniAssegnati] = useState({});
   const history = useHistory();
 
-  // 🔄 Recupera riders
+  // 🔄 Recupera tutti i riders
   const fetchRiders = async () => {
     const querySnapshot = await getDocs(collection(db, "riders"));
     const data = querySnapshot.docs.map((doc) => ({
@@ -38,7 +31,7 @@ function TableList() {
     setRiders(data);
   };
 
-  // 📦 Recupera ordini assegnati
+  // 📦 Recupera tutti gli ordini assegnati
   const fetchOrdiniAssegnati = async () => {
     const ordiniSnapshot = await getDocs(collection(db, "ordini_riders"));
     const mappa = {};
@@ -47,7 +40,7 @@ function TableList() {
       const riderId = data.assegnatoA;
       if (riderId) {
         if (!mappa[riderId]) mappa[riderId] = [];
-        mappa[riderId].push(data.ID || doc.id); // usa il campo ID o l'ID del doc
+        mappa[riderId].push(data.ID || doc.id); // usa il campo ID se presente
       }
     });
     setOrdiniAssegnati(mappa);
@@ -100,9 +93,6 @@ function TableList() {
                   {riders.map((r, idx) => {
                     const ordini = ordiniAssegnati[r.id] || [];
                     const hasOrdini = ordini.length > 0;
-                    const tooltip = hasOrdini
-                      ? `Ordini: ${ordini.join(", ")}`
-                      : "Nessun ordine";
 
                     return (
                       <tr key={r.id}>
@@ -113,41 +103,22 @@ function TableList() {
                         <td>{r.telefono}</td>
                         <td><MezzoIcon tipo={r.mezzo} /></td>
                         <td>{r.disponibilita}</td>
-
-
-
-
-
-
-
-
-
-                  <td>
-  <OverlayTrigger
-    placement="top"
-    overlay={
-      <Tooltip>
-        {r.ordiniAssegnati?.length > 0
-          ? r.ordiniAssegnati.join(", ")
-          : "Nessun ordine assegnato"}
-      </Tooltip>
-    }
-  >
-    <span>
-      {r.ordiniAssegnati?.length > 0 ? "🟢" : "🔴"}
-    </span>
-  </OverlayTrigger>
-</td>
-
-
-
-
-
-
-
-
-
-
+                        <td>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip>
+                                {hasOrdini
+                                  ? `Ordini: ${ordini.join(", ")}`
+                                  : "Nessun ordine assegnato"}
+                              </Tooltip>
+                            }
+                          >
+                            <span style={{ cursor: "default" }}>
+                              {hasOrdini ? "🟢" : "🔴"}
+                            </span>
+                          </OverlayTrigger>
+                        </td>
                         <td>{r.note}</td>
                         <td>{r.data_reg?.toDate().toLocaleString()}</td>
                         <td>
