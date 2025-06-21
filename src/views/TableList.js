@@ -4,7 +4,6 @@ import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
 import MezzoIcon from "components/MezzoIcon";
 
-
 // react-bootstrap components
 import {
   Button,
@@ -13,46 +12,56 @@ import {
   Container,
   Row,
   Col,
+  OverlayTrigger,
+  Tooltip
 } from "react-bootstrap";
 
 function TableList() {
   const [riders, setRiders] = useState([]);
+  const [ordiniAssegnati, setOrdiniAssegnati] = useState({});
   const history = useHistory();
 
+  // 🔄 Recupera riders
   const fetchRiders = async () => {
     const querySnapshot = await getDocs(collection(db, "riders"));
-
-
-
-const data = querySnapshot.docs.map((doc) => ({
-  id: doc.id, // 🔑 aggiungi l'id del documento Firestore
-  ...doc.data(),
-}));
-
-
-
-
-
-    console.log("🟡 Riders caricati:", data);
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
     setRiders(data);
+  };
+
+  // 📦 Recupera ordini assegnati
+  const fetchOrdiniAssegnati = async () => {
+    const ordiniSnapshot = await getDocs(collection(db, "ordini_riders"));
+    const mappa = {};
+    ordiniSnapshot.forEach((doc) => {
+      const data = doc.data();
+      const riderId = data.assegnatoA;
+      if (riderId) {
+        if (!mappa[riderId]) mappa[riderId] = [];
+        mappa[riderId].push(data.ID || doc.id); // usa il campo ID o l'ID del doc
+      }
+    });
+    setOrdiniAssegnati(mappa);
   };
 
   useEffect(() => {
     fetchRiders();
+    fetchOrdiniAssegnati();
   }, []);
 
   const handleDelete = async (id) => {
     if (window.confirm("Sei sicuro di voler eliminare questo rider?")) {
       await deleteDoc(doc(db, "riders", id));
       fetchRiders();
+      fetchOrdiniAssegnati();
     }
   };
 
- const handleEdit = (riderId) => {
-  console.log("🟠 Rider ID su pulsante modifica:", riderId); // 👍 tutto chiaro ora!
-  history.push(`/admin/rider-form/${riderId}`);
-};
-
+  const handleEdit = (riderId) => {
+    history.push(`/admin/rider-form/${riderId}`);
+  };
 
   return (
     <Container fluid>
@@ -74,38 +83,61 @@ const data = querySnapshot.docs.map((doc) => ({
                     <th className="border-0">Telefono</th>
                     <th className="border-0">Mezzo</th>
                     <th className="border-0">Disponibilità</th>
-                    <th className="border-0">Consegne</th>
+                    <th className="border-0">Assegnati</th>
                     <th className="border-0">Note</th>
                     <th className="border-0">Data Reg.</th>
                     <th className="border-0">Azioni</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {riders.map((r, idx) => (
-                    <tr key={r.id}>
-                      <td>{idx + 1}</td>
-                      <td>{r.cognome}</td>
-                      <td>{r.nome}</td>
-                      <td>{r.eta}</td>
-                      <td>{r.telefono}</td>
-                    <td><MezzoIcon tipo={r.mezzo} /></td>
+                  {riders.map((r, idx) => {
+                    const ordini = ordiniAssegnati[r.id] || [];
+                    const hasOrdini = ordini.length > 0;
+                    const tooltip = hasOrdini
+                      ? `Ordini: ${ordini.join(", ")}`
+                      : "Nessun ordine";
 
-                      <td>{r.disponibilita}</td>
-                      <td>{r.numero_consegne}</td>
-                      <td>{r.note}</td>
-                      <td>{r.data_reg?.toDate().toLocaleString()}</td>
-                      <td>
-                        <Button variant="warning" size="sm" onClick={() => handleEdit(r.id)} className="me-1">
-                          ✏️
+                    return (
+                      <tr key={r.id}>
+                        <td>{idx + 1}</td>
+                        <td>{r.cognome}</td>
+                        <td>{r.nome}</td>
+                        <td>{r.eta}</td>
+                        <td>{r.telefono}</td>
+                        <td><MezzoIcon tipo={r.mezzo} /></td>
+                        <td>{r.disponibilita}</td>
 
+                        <td>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip>{tooltip}</Tooltip>}
+                          >
+                            <span>{hasOrdini ? "✅" : "❌"}</span>
+                          </OverlayTrigger>
+                        </td>
 
-                        </Button>
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(r.id)}>
-                          🗑️
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
+                        <td>{r.note}</td>
+                        <td>{r.data_reg?.toDate().toLocaleString()}</td>
+                        <td>
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            onClick={() => handleEdit(r.id)}
+                            className="me-1"
+                          >
+                            ✏️
+                          </Button>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDelete(r.id)}
+                          >
+                            🗑️
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             </Card.Body>
