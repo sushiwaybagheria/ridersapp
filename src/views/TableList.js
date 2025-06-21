@@ -16,6 +16,13 @@ import {
   Tooltip
 } from "react-bootstrap";
 
+
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+
+
+
+
 function TableList() {
   const [riders, setRiders] = useState([]);
   const [ordiniAssegnati, setOrdiniAssegnati] = useState({});
@@ -107,14 +114,39 @@ function TableList() {
                         <td><MezzoIcon tipo={r.mezzo} /></td>
                         <td>{r.disponibilita}</td>
 
-                        <td>
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={<Tooltip>{tooltip}</Tooltip>}
-                          >
-                            <span>{hasOrdini ? "✅" : "❌"}</span>
-                          </OverlayTrigger>
-                        </td>
+
+
+
+
+
+
+
+
+                  <td>
+  <OverlayTrigger
+    placement="top"
+    overlay={
+      <Tooltip>
+        {r.ordiniAssegnati?.length > 0
+          ? r.ordiniAssegnati.join(", ")
+          : "Nessun ordine assegnato"}
+      </Tooltip>
+    }
+  >
+    <span>
+      {r.ordiniAssegnati?.length > 0 ? "🟢" : "🔴"}
+    </span>
+  </OverlayTrigger>
+</td>
+
+
+
+
+
+
+
+
+
 
                         <td>{r.note}</td>
                         <td>{r.data_reg?.toDate().toLocaleString()}</td>
