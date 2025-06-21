@@ -113,20 +113,12 @@ function TableList() {
 
 
 <td>
-  <OverlayTrigger
-    placement="top"
-    overlay={
-      <Tooltip>
-        {ordini.length > 0
-          ? `Ordini: ${ordini.join(", ")}`
-          : "Nessun ordine"}
-      </Tooltip>
-    }
+  <span
+    title={ordini.length > 0 ? `Ordini: ${ordini.join(", ")}` : "Nessun ordine"}
+    style={{ cursor: "pointer", fontSize: "1.2em" }}
   >
-    <div style={{ display: "inline-block", cursor: "pointer" }}>
-      {ordini.length > 0 ? "🟢" : "🔴"}
-    </div>
-  </OverlayTrigger>
+    {ordini.length > 0 ? "🟢" : "🔴"}
+  </span>
 </td>
 
 
