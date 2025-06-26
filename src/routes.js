@@ -23,6 +23,7 @@ import Notifications from "views/Notifications.js";
 import Maps from "views/Maps.js";
 import RiderForm from "views/RiderForm.js";
 import OrderForm from "views/OrderForm.js";
+import SetupPage from "views/SetupPage";
 
 const dashboardRoutes = [
   {
@@ -90,6 +91,17 @@ const dashboardRoutes = [
   invisible: true, // Non compare nel menu
   navbarType: "order-form"
 }
+
+
+{
+  path: "/setup",
+  name: "Setup",
+  icon: "nc-icon nc-settings-gear-65",
+  component: SetupPage,
+  layout: "/admin",
+  navbarType: "setup"
+}
+
 
 ];
 
