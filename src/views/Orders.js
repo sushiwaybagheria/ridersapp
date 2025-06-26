@@ -6,6 +6,51 @@ import { useHistory } from "react-router-dom";
 import { updateDoc, where, query } from "firebase/firestore";
 import "../assets/css/modal.css";
 
+
+
+
+// 🔁 Funzione per calcolare distanza e rimborso con Google Distance Matrix API
+const calcolaDistanzaEur = async (indirizzoCliente, indirizzoRistorante, rimborsoPerKm) => {
+  const encodedRistorante = encodeURIComponent(indirizzoRistorante);
+  const encodedCliente = encodeURIComponent(indirizzoCliente);
+  const apiKey = "AIzaSyB3lddst7ZfQj5vi2F4p3Ww8UL5GhK6D2o";
+
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodedRistorante}&destinations=${encodedCliente}&key=${apiKey}&language=it`;
+
+  const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // workaround per evitare CORS in dev
+  const response = await fetch(proxyUrl + url);
+  const data = await response.json();
+
+  if (
+    data.rows &&
+    data.rows[0] &&
+    data.rows[0].elements &&
+    data.rows[0].elements[0].status === "OK"
+  ) {
+    const distanzaMetri = data.rows[0].elements[0].distance.value;
+    const distanzaKm = distanzaMetri / 1000;
+    const rimborso = distanzaKm * rimborsoPerKm;
+    return {
+      km: distanzaKm.toFixed(2),
+      euro: rimborso.toFixed(2),
+    };
+  } else {
+    console.error("Errore nella risposta Distance Matrix:", data);
+    return { km: "-", euro: "-" };
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
@@ -20,18 +65,50 @@ function Orders() {
   const [showModal, setShowModal] = useState(false);
   const [ridersDisponibili, setRidersDisponibili] = useState([]);
   const [ordineSelezionato, setOrdineSelezionato] = useState(null);
-  const [riderScelto, setRiderScelto] = useState("");
+ 
+// 📏 Distanze e rimborsi calcolati per ogni ordine
+const [distanze, setDistanze] = useState({});
+
+
+ const [riderScelto, setRiderScelto] = useState("");
   const [mappaRider, setMappaRider] = useState({});
 
-  const fetchOrdini = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "ordini_riders"));
-      const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setOrdini(data);
-    } catch (error) {
-      console.error("Errore nel recupero ordini:", error);
+
+
+// 📦 Impostazioni da Firestore
+const [indirizzoRistorante, setIndirizzoRistorante] = useState("");
+const [rimborsoKm, setRimborsoKm] = useState(0.1); // valore di default
+
+
+
+
+
+
+
+
+
+
+
+ const fetchOrdini = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "ordini_riders"));
+    const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setOrdini(data);
+
+    const distanzeTemp = {};
+
+    for (const ordine of data) {
+      const indirizzoCompleto = `${ordine.indirizzo || ""} ${ordine.civico || ""} ${ordine.interno || ""}`;
+      const risultato = await calcolaDistanzaEur(indirizzoCompleto, indirizzoRistorante, rimborsoKm);
+      distanzeTemp[ordine.id] = risultato;
     }
-  };
+
+    setDistanze(distanzeTemp);
+  } catch (error) {
+    console.error("Errore nel recupero ordini:", error);
+  }
+};
+
 
   const fetchTuttiIRiders = async () => {
     const q = query(collection(db, "riders"));
@@ -44,10 +121,35 @@ function Orders() {
     setMappaRider(mappa);
   };
 
-  useEffect(() => {
-    fetchOrdini();
-    fetchTuttiIRiders();
-  }, []);
+
+
+
+// 🔁 Carica impostazioni generali (indirizzo ristorante e rimborso €/km)
+const fetchSettings = async () => {
+  try {
+    const docRef = doc(db, "settings", "config");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      setIndirizzoRistorante(data.indirizzo || "");
+      setRimborsoKm(parseFloat(data.rimborso || 0.1));
+    }
+  } catch (err) {
+    console.error("Errore nel caricamento settings:", err);
+  }
+};
+
+
+
+
+
+
+useEffect(() => {
+  fetchSettings();
+  fetchOrdini();
+  fetchTuttiIRiders();
+}, []);
+
 
   const handleEdit = (ordineId) => {
     history.push(`/admin/order-form/${ordineId}`);
@@ -106,6 +208,8 @@ function Orders() {
                     <th>PAG.</th>
                     <th>Tot.(€)</th>
                     <th>Data</th>
+<th>Rimborso</th>
+
                     <th>Assegnato</th>
                     <th>Azioni</th>
                   </tr>
@@ -131,6 +235,19 @@ function Orders() {
                       <td>{ordine.totaleOrdine || "-"}</td>
                       <td>{ordine.dataConsegna || "-"}</td>
                       <td>
+
+
+<td>
+  {distanze[ordine.id] ? (
+    <>
+      {distanze[ordine.id].km} km<br />
+      💶 {distanze[ordine.id].euro} €
+    </>
+  ) : (
+    "-"
+  )}
+</td>
+
                         {ordine.assegnatoA ? (
                           <span
                             title={`Assegnato a ${mappaRider[ordine.assegnatoA] || ""}`}
