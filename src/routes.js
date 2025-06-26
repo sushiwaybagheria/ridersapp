@@ -90,7 +90,7 @@ const dashboardRoutes = [
   layout: "/admin",
   invisible: true, // Non compare nel menu
   navbarType: "order-form"
-}
+},
 
 
 {
